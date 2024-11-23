@@ -12,10 +12,11 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string actionMapName = "Player";
 
     [Header("Action Name Reference")]
-    [SerializeField] private string move = "move";
+    [SerializeField] private string move = "Move";
     [SerializeField] private string jump = "Jump";
     [SerializeField] private string look = "Look";
     [SerializeField] private string attack = "Attack";
+    
 
 
     private InputAction moveAction;
@@ -23,10 +24,11 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction lookAction;
     private InputAction attackAction;
 
+    //This is what you reference.
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
-    public bool JumpInput { get; private set; }
-    public float AttackInput { get; private set; }
+    public bool JumpTriggered { get; private set; }
+    public bool AttackTriggered { get; private set; }
 
     public static PlayerInputHandler Instance { get; private set; }
 
@@ -54,10 +56,14 @@ public class PlayerInputHandler : MonoBehaviour
         moveAction.performed += context => MoveInput = context.ReadValue<Vector2>();
         moveAction.canceled += context => MoveInput = Vector2.zero;
 
-        lookAction.performed += context => MoveInput = context.ReadValue<Vector2>();
-        lookAction.canceled += context => MoveInput = Vector2.zero;
+        lookAction.performed += context => LookInput = context.ReadValue<Vector2>();
+        lookAction.canceled += context => LookInput = Vector2.zero;
 
+        jumpAction.performed += context => JumpTriggered = true;
+        jumpAction.canceled += context => JumpTriggered = false;
 
+        attackAction.performed += context => AttackTriggered = true;
+        attackAction.canceled += context => AttackTriggered = false;
     }
 
 
