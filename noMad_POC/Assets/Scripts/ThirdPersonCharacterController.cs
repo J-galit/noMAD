@@ -7,23 +7,29 @@ using UnityEngine.UIElements;
 public class ThirdPersonCharacterController : MonoBehaviour
 {
     [SerializeField] private GameObject adaptationsShop;
-    //[SerializeField] private GameObject ;
+    [SerializeField] private GameObject jumpBoostButton;
+    [SerializeField] private GameObject speedBoostButton;
+    [SerializeField] private GameObject smallSizeButton;
 
 
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 3.0f;
     [SerializeField] private float sprintMultiplier = 2.0f;
 
+    [Header("Speed Adaptation Parameters")]
+    [SerializeField] private float speedBoostMultiplier;
+    [SerializeField] private bool isSpeedBoostActive;
 
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravity = -9.81f;
 
     [Header("Jump Adaptation Parameters")]
-    [SerializeField] private float baseJumpForce;
     [SerializeField] private float jumpBoostMultiplier;
     [SerializeField] private bool isJumpBoostActive;
 
+    [Header("Misc. Adaptations")]
+    [SerializeField] private bool isSmallerSizeActive;
     
 
     [Header("Camera Parameters")]
@@ -54,6 +60,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void HandleMovement()
     {
         float speed = walkSpeed;
+        if (isSpeedBoostActive)
+        {
+            speed = walkSpeed * speedBoostMultiplier;
+        }
+        else
+            speed = walkSpeed;
 
         Vector3 inputDirection = new Vector3(inputHandler.MoveInput.x, 0f, inputHandler.MoveInput.y).normalized; //MoveInput.y because it's a vector 2 so the y is actually the z
         
@@ -86,8 +98,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             if (inputHandler.JumpTriggered)
             {
-
-                currentVelocity.y = jumpForce;
+                if(isJumpBoostActive == true)
+                {
+                    currentVelocity.y = jumpForce * jumpBoostMultiplier;
+                }
+                else
+                    currentVelocity.y = jumpForce;
             }
         
         }
@@ -115,13 +131,47 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
 
-   /* public void JumpBoostButtonHandler()
+    public void JumpBoostButtonHandler()
     {
         if(isJumpBoostActive == false)
         {
             isJumpBoostActive = true;
-
+            jumpBoostButton.SetActive(true);
         }
-    } */
+        else if(isJumpBoostActive == true)
+        {
+            isJumpBoostActive = false;
+            jumpBoostButton.SetActive(false);
+        }
+    }
 
+    public void SpeedBoostButtonHandler()
+    {
+        if (isSpeedBoostActive == false)
+        {
+            isSpeedBoostActive = true;
+            speedBoostButton.SetActive(true);
+        }
+        else if (isSpeedBoostActive == true)
+        {
+            isSpeedBoostActive = false;
+            speedBoostButton.SetActive(false);
+        }
+    }
+
+    public void SmallerSizeButtonHandler()
+    {
+        if (isSmallerSizeActive == false)
+        {
+            isSmallerSizeActive = true;
+            smallSizeButton.SetActive(true);
+            this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else if (isSmallerSizeActive == true)
+        {
+            isSmallerSizeActive = false;
+            smallSizeButton.SetActive(false);
+            this.transform.localScale = Vector3.one;
+        }
+    }
 }

@@ -198,13 +198,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adaptationsShop: {fileID: 1346637033}
+  jumpBoostButton: {fileID: 1177906497}
+  speedBoostButton: {fileID: 1490006654}
+  smallSizeButton: {fileID: 1852128115}
   walkSpeed: 3
   sprintMultiplier: 2
+  speedBoostMultiplier: 1.3
+  isSpeedBoostActive: 0
   jumpForce: 5
   gravity: 9.81
-  baseJumpForce: 0
-  jumpBoostMultiplier: 0
+  jumpBoostMultiplier: 1.3
   isJumpBoostActive: 0
+  isSmallerSizeActive: 0
   cam: {fileID: 963194228}
   turnSmoothTime: 0.1
 --- !u!114 &214635022
@@ -654,7 +659,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 593485958}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 214635021}
+        m_TargetAssemblyTypeName: ThirdPersonCharacterController, Assembly-CSharp
+        m_MethodName: SmallerSizeButtonHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &593485958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,7 +1752,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1309421120}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 214635021}
+        m_TargetAssemblyTypeName: ThirdPersonCharacterController, Assembly-CSharp
+        m_MethodName: SpeedBoostButtonHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1309421120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2454,7 +2483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562765860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09897817, y: -0.000000008560947, z: 8.5152807e-10, w: 0.99508965}
+  m_LocalRotation: {x: 0.09897817, y: 0.000000008560945, z: -8.515279e-10, w: 0.99508965}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2760,7 +2789,7 @@ GameObject:
   - component: {fileID: 1852128118}
   - component: {fileID: 1852128117}
   m_Layer: 5
-  m_Name: SpeedBoostIcon (1)
+  m_Name: SmallerSizeIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
