@@ -11,6 +11,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
 
+    [SerializeField] private GameObject maxAdaptationErrorUI;
+
 
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 3.0f;
@@ -40,6 +42,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private CharacterController characterController;
     private Camera mainCamera;
     private PlayerInputHandler inputHandler;
+
+    private int maxAdaptations = 2;
+    private int currentAdaptations;
 
     private Vector3 currentVelocity;
    
@@ -133,45 +138,71 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void JumpBoostButtonHandler()
     {
-        if(isJumpBoostActive == false)
+        if(isJumpBoostActive == false && currentAdaptations < maxAdaptations)
         {
             isJumpBoostActive = true;
             jumpBoostButton.SetActive(true);
+            currentAdaptations++;
         }
         else if(isJumpBoostActive == true)
         {
             isJumpBoostActive = false;
             jumpBoostButton.SetActive(false);
+            currentAdaptations--;
+        }
+        else
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
         }
     }
 
     public void SpeedBoostButtonHandler()
     {
-        if (isSpeedBoostActive == false)
+        if (isSpeedBoostActive == false && currentAdaptations < maxAdaptations)
         {
             isSpeedBoostActive = true;
             speedBoostButton.SetActive(true);
+            currentAdaptations++;
         }
         else if (isSpeedBoostActive == true)
         {
             isSpeedBoostActive = false;
             speedBoostButton.SetActive(false);
+            currentAdaptations--;
+        }
+        else
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
         }
     }
 
     public void SmallerSizeButtonHandler()
     {
-        if (isSmallerSizeActive == false)
+        if (isSmallerSizeActive == false && currentAdaptations < maxAdaptations)
         {
             isSmallerSizeActive = true;
             smallSizeButton.SetActive(true);
             this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            currentAdaptations++;
         }
         else if (isSmallerSizeActive == true)
         {
             isSmallerSizeActive = false;
             smallSizeButton.SetActive(false);
             this.transform.localScale = Vector3.one;
+            currentAdaptations--;
         }
+        else
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+    }
+
+    IEnumerator MaxAdaptationCoroutine()
+    {
+        maxAdaptationErrorUI.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        maxAdaptationErrorUI.SetActive(false);
+
     }
 }
