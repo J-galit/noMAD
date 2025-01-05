@@ -16,6 +16,7 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string jump = "Jump";
     [SerializeField] private string look = "Look";
     [SerializeField] private string attack = "Attack";
+    [SerializeField] private string shop = "Shop";
     
 
 
@@ -23,12 +24,14 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction jumpAction;
     private InputAction lookAction;
     private InputAction attackAction;
+    private InputAction shopAction;
 
     //This is what you reference.
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool JumpTriggered { get; private set; }
     public bool AttackTriggered { get; private set; }
+    public bool ShopTriggered { get; private set; }
 
     public static PlayerInputHandler Instance { get; private set; }
 
@@ -48,6 +51,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction = playerControls.FindActionMap(actionMapName).FindAction(look);
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         attackAction = playerControls.FindActionMap(actionMapName).FindAction(attack);
+        shopAction = playerControls.FindActionMap(actionMapName).FindAction(shop);
         RegisterInputActions();
     }
 
@@ -64,6 +68,9 @@ public class PlayerInputHandler : MonoBehaviour
 
         attackAction.performed += context => AttackTriggered = true;
         attackAction.canceled += context => AttackTriggered = false;
+
+        shopAction.performed += context => ShopTriggered = true;
+        shopAction.canceled += context => ShopTriggered = false;
     }
 
 
@@ -73,7 +80,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Enable();
         jumpAction.Enable();
         attackAction.Enable();
-
+        shopAction.Enable();
     }
 
     private void OnDisable()
@@ -82,6 +89,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Disable();
         jumpAction.Disable();
         attackAction.Disable();
+        shopAction.Disable();
     }
 
 }

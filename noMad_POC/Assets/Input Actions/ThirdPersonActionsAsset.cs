@@ -62,6 +62,15 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shop"",
+                    ""type"": ""Button"",
+                    ""id"": ""d86317bc-5eba-416c-b0da-cc159f2eeb2f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7e57298-e5ed-40d4-af68-f15954134d1e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""004fa628-7a30-4b84-bc0a-5a3e6a8870fd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +239,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_Shop = m_Player.FindAction("Shop", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +305,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_Shop;
     public struct PlayerActions
     {
         private @ThirdPersonActionsAsset m_Wrapper;
@@ -281,6 +314,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @Shop => m_Wrapper.m_Player_Shop;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -302,6 +336,9 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Shop.started += instance.OnShop;
+            @Shop.performed += instance.OnShop;
+            @Shop.canceled += instance.OnShop;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -318,6 +355,9 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Shop.started -= instance.OnShop;
+            @Shop.performed -= instance.OnShop;
+            @Shop.canceled -= instance.OnShop;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -341,5 +381,6 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnShop(InputAction.CallbackContext context);
     }
 }
