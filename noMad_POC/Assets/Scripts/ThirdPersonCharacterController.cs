@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ThirdPersonCharacterController : MonoBehaviour
 {
+    [SerializeField] private GameObject adaptationsShop;
+    //[SerializeField] private GameObject ;
+
+
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 3.0f;
     [SerializeField] private float sprintMultiplier = 2.0f;
@@ -13,6 +18,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravity = -9.81f;
+
+    [Header("Jump Adaptation Parameters")]
+    [SerializeField] private float baseJumpForce;
+    [SerializeField] private float jumpBoostMultiplier;
+    [SerializeField] private bool isJumpBoostActive;
 
     
 
@@ -39,7 +49,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void Update()
     {
         HandleMovement();
-
     }
 
     void HandleMovement()
@@ -63,6 +72,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
         }
+
+        HandleShopping();
     }
 
     void HandleJumping()
@@ -88,6 +99,29 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.Move(currentVelocity * Time.deltaTime);
     }
 
-   
+   void HandleShopping()
+    {
+
+        if (inputHandler.ShopTriggered == true)
+        {
+            if (adaptationsShop.activeSelf == false)
+            {
+                adaptationsShop.SetActive(true);
+            }
+            else if (adaptationsShop.activeSelf == true)
+            {
+                adaptationsShop.SetActive(false);
+            }
+        }
+    }
+
+   /* public void JumpBoostButtonHandler()
+    {
+        if(isJumpBoostActive == false)
+        {
+            isJumpBoostActive = true;
+
+        }
+    } */
 
 }
