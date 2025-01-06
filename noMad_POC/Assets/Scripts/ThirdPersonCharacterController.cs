@@ -64,6 +64,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void HandleMovement()
     {
+        HandleJumping();
+
+
         float speed = walkSpeed;
         if (isSpeedBoostActive)
         {
@@ -75,7 +78,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         Vector3 inputDirection = new Vector3(inputHandler.MoveInput.x, 0f, inputHandler.MoveInput.y).normalized; //MoveInput.y because it's a vector 2 so the y is actually the z
         
 
-        HandleJumping();
+        
 
         if (inputDirection.magnitude >= 0.1f)
         {
@@ -98,11 +101,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         if (characterController.isGrounded) 
         {
-            
+            print("ground");
             currentVelocity.y = -2f;
 
             if (inputHandler.JumpTriggered)
             {
+                print("Jumping");
                 if(isJumpBoostActive == true)
                 {
                     currentVelocity.y = jumpForce * jumpBoostMultiplier;
