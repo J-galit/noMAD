@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class ThirdPersonCharacterController : MonoBehaviour
@@ -30,6 +31,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private float jumpBoostMultiplier;
     [SerializeField] private bool isJumpBoostActive;
 
+    [Header("Attack Parameters")]
+    [SerializeField] private GameObject attackPrefab;
+    [SerializeField] private bool isAttacking;
+
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
     
@@ -47,7 +52,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private int currentAdaptations;
 
     private Vector3 currentVelocity;
-   
+
+
 
     private void Awake()
     {
@@ -93,6 +99,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
+        if(inputHandler.AttackTriggered)
+        {
+            OnAttack();
+        }
+
         HandleShopping();
     }
 
@@ -124,7 +135,24 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.Move(currentVelocity * Time.deltaTime);
     }
 
-   void HandleShopping()
+    private void OnAttack()
+    {
+        if (isAttacking == false)
+        {
+            Instantiate(attackPrefab, transform);
+            isAttacking = true;
+            StartCoroutine(AttackCooldownCoroutine());
+        }
+    }
+
+    private IEnumerator AttackCooldownCoroutine()
+    {
+        //timer to prevent player from spamming attack
+        yield return new WaitForSeconds(0.8f);
+        isAttacking = false;
+    }
+
+    void HandleShopping()
     {
 
         if (inputHandler.ShopTriggered == true)
