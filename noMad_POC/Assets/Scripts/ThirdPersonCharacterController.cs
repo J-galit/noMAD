@@ -60,6 +60,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         inputHandler = PlayerInputHandler.Instance;
+        UnityEngine.Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -159,10 +160,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             if (adaptationsShop.activeSelf == false)
             {
+                UnityEngine.Cursor.visible = true;
                 adaptationsShop.SetActive(true);
             }
             else if (adaptationsShop.activeSelf == true)
             {
+                UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
             }
         }
