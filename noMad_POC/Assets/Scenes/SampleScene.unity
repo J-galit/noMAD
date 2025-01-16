@@ -238,7 +238,7 @@ MonoBehaviour:
   speedBoostButton: {fileID: 1490006654}
   smallSizeButton: {fileID: 1852128115}
   maxAdaptationErrorUI: {fileID: 487016479}
-  walkSpeed: 3
+  walkSpeed: 5
   sprintMultiplier: 2
   speedBoostMultiplier: 1.5
   isSpeedBoostActive: 0
