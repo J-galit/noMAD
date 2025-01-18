@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 214635019}
   - component: {fileID: 214635020}
   - component: {fileID: 214635021}
-  - component: {fileID: 214635022}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -216,13 +215,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0.98
-  m_Radius: 0.89
+  m_Height: 1
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.22, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &214635021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +239,7 @@ MonoBehaviour:
   speedBoostButton: {fileID: 1490006654}
   smallSizeButton: {fileID: 1852128115}
   maxAdaptationErrorUI: {fileID: 487016479}
-  walkSpeed: 3
+  walkSpeed: 5
   sprintMultiplier: 2
   speedBoostMultiplier: 1.5
   isSpeedBoostActive: 0
@@ -253,25 +252,6 @@ MonoBehaviour:
   isSmallerSizeActive: 0
   cam: {fileID: 963194228}
   turnSmoothTime: 0.1
---- !u!114 &214635022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214635018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c25ac6c42cb043bb0ba83e197b932, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerControls: {fileID: -944628639613478452, guid: 1a19cd7ca6728d54c8b5fc0fff840f87, type: 3}
-  actionMapName: Player
-  move: Move
-  jump: Jump
-  look: Look
-  attack: Attack
-  shop: Shop
 --- !u!1 &276091359
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,6 +519,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305756274}
   m_CullTransparentMesh: 1
+--- !u!1 &344856655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 344856656}
+  - component: {fileID: 344856657}
+  m_Layer: 0
+  m_Name: InputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &344856656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344856655}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -44.48038, y: -4.0897446, z: 7.2534943}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &344856657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344856655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c25ac6c42cb043bb0ba83e197b932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: -944628639613478452, guid: 1a19cd7ca6728d54c8b5fc0fff840f87, type: 3}
+  actionMapName: Player
+  move: Move
+  jump: Jump
+  look: Look
+  attack: Attack
+  shop: Shop
 --- !u!1 &365734178
 GameObject:
   m_ObjectHideFlags: 3
@@ -610,7 +641,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365734178}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13505942, y: 8.719026e-16, z: -1.7869098e-17, w: 0.9908375}
+  m_LocalRotation: {x: 0.1350594, y: -0.00000001476463, z: 0.0000000020125421, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1524,7 +1555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.117014244, y: 0.00000003417636, z: -0.000000004026784, w: 0.99313027}
+  m_LocalRotation: {x: 0.117014244, y: -0.00000003417636, z: 0.000000004026784, w: 0.99313027}
   m_LocalPosition: {x: 0, y: 5.94, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1636,7 +1667,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964289214}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11701424, y: 0.000000017088176, z: -0.0000000020133915, w: 0.99313027}
+  m_LocalRotation: {x: 0.11701424, y: -0.00000001708818, z: 0.000000002013392, w: 0.99313027}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4619,3 +4650,4 @@ SceneRoots:
   - {fileID: 1212864092}
   - {fileID: 952458691}
   - {fileID: 3258758}
+  - {fileID: 344856656}
