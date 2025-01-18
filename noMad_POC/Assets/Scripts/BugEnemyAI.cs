@@ -9,6 +9,7 @@ public class BugEnemyAI : MonoBehaviour
     [SerializeField] private float sprintMultiplier = 2.0f;
     [SerializeField] private float rotationSpeed;
 
+
     private bool isWandering;
     private bool isWalking;
     private bool isRotatingRight, isRotatingLeft;
@@ -16,6 +17,7 @@ public class BugEnemyAI : MonoBehaviour
 
     private void Update()
     {
+
         if (isWandering == false)
         {
             StartCoroutine(WanderCoroutine());
@@ -36,11 +38,6 @@ public class BugEnemyAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("AHH RUN AWAY");
-        }
-
         if (other.CompareTag("Attack"))
         {
             Destroy(gameObject);
@@ -73,6 +70,7 @@ public class BugEnemyAI : MonoBehaviour
             yield return new WaitForSeconds(rotTime);
             isRotatingLeft = false;
         }
-        isWandering = false;    
+        isWandering = false;
+        yield break;
     }
 }
