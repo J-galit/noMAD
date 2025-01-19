@@ -108,6 +108,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
         HandleShopping();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+            Debug.Log("I took dmg");
+        
+    }
+
     void HandleJumping()
     {
 
