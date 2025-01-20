@@ -70,7 +70,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
