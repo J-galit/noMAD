@@ -37,7 +37,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
-    
+    private bool isInDen;
+    private bool isAbleToShop = true;
 
     [Header("Camera Parameters")]
     public Transform cam;
@@ -67,6 +68,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void Update()
     {
         HandleMovement();
+        HandleShopping();
     }
 
     void HandleMovement()
@@ -105,14 +107,28 @@ public class ThirdPersonCharacterController : MonoBehaviour
             OnAttack();
         }
 
-        HandleShopping();
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Den")
+        {
+            isInDen = true;
+        }   
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Den")
+        {
+            isInDen = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+       
             Debug.Log("I took dmg");
-        
     }
 
     void HandleJumping()
@@ -160,20 +176,37 @@ public class ThirdPersonCharacterController : MonoBehaviour
         isAttacking = false;
     }
 
+    private IEnumerator ShopCooldownCoroutine() 
+    { 
+        //timer to prevent player from spamming shops
+        yield return new WaitForSeconds(0.2f);
+        if(isAbleToShop == true)
+        {
+            isAbleToShop = false;
+        }
+        else
+        {
+            isAbleToShop = true;
+        }
+    }
+
     void HandleShopping()
     {
+        
 
-        if (inputHandler.ShopTriggered == true)
+        if (inputHandler.ShopTriggered == true && isInDen)
         {
-            if (adaptationsShop.activeSelf == false)
+            if (adaptationsShop.activeSelf == false && isAbleToShop == true)
             {
                 UnityEngine.Cursor.visible = true;
                 adaptationsShop.SetActive(true);
+                StartCoroutine(ShopCooldownCoroutine());
             }
-            else if (adaptationsShop.activeSelf == true)
+            else if (adaptationsShop.activeSelf == true && isAbleToShop == false)
             {
                 UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
+                StartCoroutine(ShopCooldownCoroutine());
             }
         }
     }
