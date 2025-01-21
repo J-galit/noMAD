@@ -26,6 +26,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float coyoteTimeDuration = 0.2f; // Time window for coyote time
+    private float coyoteTimeCounter;       // Timer for coyote time
 
     [Header("Jump Adaptation Parameters")]
     [SerializeField] private float jumpBoostMultiplier;
@@ -67,6 +69,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleCoyoteTime();
         HandleMovement();
         HandleShopping();
     }
@@ -134,7 +137,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void HandleJumping()
     {
 
-        if (characterController.isGrounded) 
+        if (characterController.isGrounded && coyoteTimeCounter > 0) 
         {
             print("ground");
             currentVelocity.y = -2f;
@@ -149,7 +152,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 else
                     currentVelocity.y = jumpForce;
             }
-        
+            coyoteTimeCounter = 0; // Prevent multiple jumps in air
+
         }
         else
         {
@@ -158,6 +162,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
         
         characterController.Move(currentVelocity * Time.deltaTime);
     }
+
+    void HandleCoyoteTime()
+    {
+        if (characterController.isGrounded)
+        {
+            coyoteTimeCounter = coyoteTimeDuration; // Reset coyote time if grounded
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime; // Decrease timer if not grounded
+        }
+    }
+
 
     private void OnAttack()
     {
