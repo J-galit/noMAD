@@ -26,6 +26,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float coyoteTimeDuration = 0.2f; // Time window for coyote time
+    private float coyoteTimeCounter;       // Timer for coyote time
 
     [Header("Jump Adaptation Parameters")]
     [SerializeField] private float jumpBoostMultiplier;
@@ -37,7 +39,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
-    
+    private bool isInDen;
+    private bool isAbleToShop = true;
 
     [Header("Camera Parameters")]
     public Transform cam;
@@ -66,7 +69,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleCoyoteTime();
         HandleMovement();
+        HandleShopping();
     }
 
     void HandleMovement()
@@ -105,20 +110,34 @@ public class ThirdPersonCharacterController : MonoBehaviour
             OnAttack();
         }
 
-        HandleShopping();
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Den")
+        {
+            isInDen = true;
+        }   
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Den")
+        {
+            isInDen = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+       
             Debug.Log("I took dmg");
-        
     }
 
     void HandleJumping()
     {
 
-        if (characterController.isGrounded) 
+        if (characterController.isGrounded && coyoteTimeCounter > 0) 
         {
             print("ground");
             currentVelocity.y = -2f;
@@ -133,7 +152,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 else
                     currentVelocity.y = jumpForce;
             }
-        
+            coyoteTimeCounter = 0; // Prevent multiple jumps in air
+
         }
         else
         {
@@ -142,6 +162,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
         
         characterController.Move(currentVelocity * Time.deltaTime);
     }
+
+    void HandleCoyoteTime()
+    {
+        if (characterController.isGrounded)
+        {
+            coyoteTimeCounter = coyoteTimeDuration; // Reset coyote time if grounded
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime; // Decrease timer if not grounded
+        }
+    }
+
 
     private void OnAttack()
     {
@@ -160,20 +193,37 @@ public class ThirdPersonCharacterController : MonoBehaviour
         isAttacking = false;
     }
 
+    private IEnumerator ShopCooldownCoroutine() 
+    { 
+        //timer to prevent player from spamming shops
+        yield return new WaitForSeconds(0.2f);
+        if(isAbleToShop == true)
+        {
+            isAbleToShop = false;
+        }
+        else
+        {
+            isAbleToShop = true;
+        }
+    }
+
     void HandleShopping()
     {
+        
 
-        if (inputHandler.ShopTriggered == true)
+        if (inputHandler.ShopTriggered == true && isInDen)
         {
-            if (adaptationsShop.activeSelf == false)
+            if (adaptationsShop.activeSelf == false && isAbleToShop == true)
             {
                 UnityEngine.Cursor.visible = true;
                 adaptationsShop.SetActive(true);
+                StartCoroutine(ShopCooldownCoroutine());
             }
-            else if (adaptationsShop.activeSelf == true)
+            else if (adaptationsShop.activeSelf == true && isAbleToShop == false)
             {
                 UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
+                StartCoroutine(ShopCooldownCoroutine());
             }
         }
     }
