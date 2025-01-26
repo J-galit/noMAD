@@ -16,6 +16,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
+    private int maxAdaptations = 2;
+    private int currentAdaptations;
+
+    private UICurrency _UICurrency;
+
+    //Adaptation costs
+    private int jumpBoostCost = 100;
+    private bool isJumpBoostOwned;
+    private int speedBoostCost = 100;
+    private bool isSpeedBoostOwned;
+    private int smallerSizeCost = 100;
+    private bool isSmallerSizeOwned;
+
 
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 3.0f;
@@ -39,6 +52,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject attackPrefab;
     [SerializeField] private bool isAttacking;
 
+
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
     [SerializeField] private int totalCurrency;
@@ -54,20 +68,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Camera mainCamera;
     private PlayerInputHandler inputHandler;
 
-    private int maxAdaptations = 2;
-    private int currentAdaptations;
-
     private Vector3 currentVelocity;
-
-    private UICurrency _UICurrency;
-
-    //Adaptation costs
-    private int jumpBoostCost = 100;
-    private bool isJumpBoostOwned;
-    private int speedBoostCost = 100;
-    private bool isSpeedBoostOwned;
-    private int smallerSizeCost = 100;
-    private bool isSmallerSizeOwned;
+   
 
 
 
@@ -149,7 +151,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        Debug.Log("I took dmg");
+        if(collision.gameObject.CompareTag("EnemyAttack"))
+        {
+            Debug.Log("i took dmg");
+        }
     }
 
     void HandleJumping()
@@ -249,19 +254,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
     /*
-    * ADAPTATION CODE STARTED
+    * ADAPTATIONS CODE STARTED
     */
     public void JumpBoostButtonHandler()
     {
-        if (jumpBoostCost <= totalCurrency && isJumpBoostOwned == false)
+        if (jumpBoostCost <= totalCurrency && isJumpBoostOwned == false && currentAdaptations < maxAdaptations)
         {
             totalCurrency -= jumpBoostCost;
             isJumpBoostOwned = true;
         }
         if (isJumpBoostOwned == true)
         {
-
-            if (isJumpBoostActive == false && currentAdaptations < maxAdaptations)
+            if (isJumpBoostActive == false)
             {
                 isJumpBoostActive = true;
                 jumpBoostButton.SetActive(true);
@@ -272,13 +276,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isJumpBoostActive = false;
                 jumpBoostButton.SetActive(false);
                 totalCurrency += jumpBoostCost / 2;
-                isSpeedBoostOwned = false;
+                isJumpBoostOwned = false;
                 currentAdaptations--;
             }
-            else
-            {
-                StartCoroutine(MaxAdaptationCoroutine());
-            }
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
         }
         _UICurrency.UpdateCurrency(totalCurrency);
 
@@ -286,14 +290,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void SpeedBoostButtonHandler()
     {
-        if (speedBoostCost <= totalCurrency && isSpeedBoostOwned == false)
+        if (speedBoostCost <= totalCurrency && isSpeedBoostOwned == false && currentAdaptations < maxAdaptations)
         {
             totalCurrency -= speedBoostCost;
-            isSmallerSizeOwned = true;
+            isSpeedBoostOwned = true;
         }
         if (isSpeedBoostOwned == true)
         {
-            if (isSpeedBoostActive == false && currentAdaptations < maxAdaptations)
+            if (isSpeedBoostActive == false)
             {
                 isSpeedBoostActive = true;
                 speedBoostButton.SetActive(true);
@@ -307,11 +311,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isSpeedBoostOwned = false;
                 currentAdaptations--;
             }
-            else
-            {
-                StartCoroutine(MaxAdaptationCoroutine());
-            }
-
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
         }
         _UICurrency.UpdateCurrency(totalCurrency);
 
@@ -319,7 +322,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void SmallerSizeButtonHandler()
     {
-        if (smallerSizeCost <= totalCurrency && isSmallerSizeOwned == false)
+        if (smallerSizeCost <= totalCurrency && isSmallerSizeOwned == false && currentAdaptations < maxAdaptations)
         {
             totalCurrency -= smallerSizeCost;
             isSmallerSizeOwned = true;
@@ -328,7 +331,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (isSmallerSizeOwned == true)
         {
 
-            if (isSmallerSizeActive == false && currentAdaptations < maxAdaptations)
+            if (isSmallerSizeActive == false)
             {
                 isSmallerSizeActive = true;
                 smallSizeButton.SetActive(true);
@@ -344,11 +347,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isSmallerSizeOwned = false;
                 currentAdaptations--;
             }
-            else
-            {
-                StartCoroutine(MaxAdaptationCoroutine());
-            }
 
+        }
+        else if(currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
         }
         _UICurrency.UpdateCurrency(totalCurrency);
 
