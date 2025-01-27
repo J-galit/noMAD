@@ -13,6 +13,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject jumpBoostButton;
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
+    [SerializeField] private GameObject largeSizeButton;
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
@@ -28,6 +29,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isSpeedBoostOwned;
     private int smallerSizeCost = 100;
     private bool isSmallerSizeOwned;
+    private int largerSizeCost = 100;
+    private bool isLargerSizeOwned;
 
 
     [Header("Movement Speeds")]
@@ -55,6 +58,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
+    [SerializeField] private bool isLargerSizeActive;
     [SerializeField] private int totalCurrency;
     [SerializeField] private bool isInDen; //only serialized for debugging
     private bool isAbleToShop = true;
@@ -355,6 +359,44 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         }
         else if(currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+
+    }
+
+    public void LargerSizeButtonHandler()
+    {
+        if (largerSizeCost <= totalCurrency && isLargerSizeOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= largerSizeCost;
+            isLargerSizeOwned = true;
+        }
+
+        if (isLargerSizeOwned == true)
+        {
+
+            if (isLargerSizeActive == false)
+            {
+                isLargerSizeActive = true;
+                largeSizeButton.SetActive(true);
+                this.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                currentAdaptations++;
+            }
+            else if (isLargerSizeOwned == true)
+            {
+                isLargerSizeActive = false;
+                largeSizeButton.SetActive(false);
+                this.transform.localScale = Vector3.one;
+                totalCurrency += smallerSizeCost / 2;
+                isLargerSizeOwned = false;
+                currentAdaptations--;
+            }
+
+        }
+        else if (currentAdaptations >= maxAdaptations)
         {
             StartCoroutine(MaxAdaptationCoroutine());
         }
