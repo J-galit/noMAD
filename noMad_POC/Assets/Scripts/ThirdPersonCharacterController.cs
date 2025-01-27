@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
+
+//this script is gonna be so fucking long
 public class ThirdPersonCharacterController : MonoBehaviour
 {
     [SerializeField] private GameObject adaptationsShop;
@@ -13,6 +15,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject smallSizeButton;
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
+
+    private int maxAdaptations = 2;
+    private int currentAdaptations;
+
+    private UICurrency _UICurrency;
+
+    //Adaptation costs
+    private int jumpBoostCost = 100;
+    private bool isJumpBoostOwned;
+    private int speedBoostCost = 100;
+    private bool isSpeedBoostOwned;
+    private int smallerSizeCost = 100;
+    private bool isSmallerSizeOwned;
 
 
     [Header("Movement Speeds")]
@@ -37,9 +52,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject attackPrefab;
     [SerializeField] private bool isAttacking;
 
+
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
-    private bool isInDen;
+    [SerializeField] private int totalCurrency;
+    [SerializeField] private bool isInDen; //only serialized for debugging
     private bool isAbleToShop = true;
 
     [Header("Camera Parameters")]
@@ -51,10 +68,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Camera mainCamera;
     private PlayerInputHandler inputHandler;
 
-    private int maxAdaptations = 2;
-    private int currentAdaptations;
-
     private Vector3 currentVelocity;
+   
 
 
 
@@ -64,9 +79,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
         mainCamera = Camera.main;
         inputHandler = PlayerInputHandler.Instance;
         UnityEngine.Cursor.visible = false;
+        _UICurrency = GameObject.Find("CurrencyText").GetComponent<UICurrency>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         HandleCoyoteTime();
@@ -88,9 +103,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
             speed = walkSpeed;
 
         Vector3 inputDirection = new Vector3(inputHandler.MoveInput.x, 0f, inputHandler.MoveInput.y).normalized; //MoveInput.y because it's a vector 2 so the y is actually the z
-        
-
-        
 
         if (inputDirection.magnitude >= 0.1f)
         {
@@ -100,24 +112,30 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-
-
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        if(inputHandler.AttackTriggered)
+        if (inputHandler.AttackTriggered)
         {
             OnAttack();
         }
 
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Den")
         {
             isInDen = true;
-        }   
+        }
+
+        if (other.gameObject.tag == "Currency")
+        {
+            totalCurrency += 100;
+            Debug.Log(totalCurrency);
+            _UICurrency.UpdateCurrency(totalCurrency);
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -125,19 +143,24 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (other.gameObject.tag == "Den")
         {
             isInDen = false;
+            adaptationsShop.SetActive(false);
+            isAbleToShop = true;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-       
-            Debug.Log("I took dmg");
+
+        if(collision.gameObject.CompareTag("EnemyAttack"))
+        {
+            Debug.Log("i took dmg");
+        }
     }
 
     void HandleJumping()
     {
 
-        if (characterController.isGrounded && coyoteTimeCounter > 0) 
+        if (characterController.isGrounded && coyoteTimeCounter > 0)
         {
             print("ground");
             currentVelocity.y = -2f;
@@ -145,7 +168,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (inputHandler.JumpTriggered)
             {
                 print("Jumping");
-                if(isJumpBoostActive == true)
+                if (isJumpBoostActive == true)
                 {
                     currentVelocity.y = jumpForce * jumpBoostMultiplier;
                 }
@@ -159,7 +182,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             currentVelocity.y -= gravity * Time.deltaTime;
         }
-        
+
         characterController.Move(currentVelocity * Time.deltaTime);
     }
 
@@ -193,11 +216,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
         isAttacking = false;
     }
 
-    private IEnumerator ShopCooldownCoroutine() 
-    { 
+    /*
+     * SHOPPING AND CURRENCY CODE STARTED
+     */
+
+
+    private IEnumerator ShopCooldownCoroutine()
+    {
         //timer to prevent player from spamming shops
         yield return new WaitForSeconds(0.2f);
-        if(isAbleToShop == true)
+        if (isAbleToShop == true)
         {
             isAbleToShop = false;
         }
@@ -209,8 +237,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void HandleShopping()
     {
-        
-
         if (inputHandler.ShopTriggered == true && isInDen)
         {
             if (adaptationsShop.activeSelf == false && isAbleToShop == true)
@@ -227,67 +253,109 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
         }
     }
-
+    /*
+    * ADAPTATIONS CODE STARTED
+    */
     public void JumpBoostButtonHandler()
     {
-        if(isJumpBoostActive == false && currentAdaptations < maxAdaptations)
+        if (jumpBoostCost <= totalCurrency && isJumpBoostOwned == false && currentAdaptations < maxAdaptations)
         {
-            isJumpBoostActive = true;
-            jumpBoostButton.SetActive(true);
-            currentAdaptations++;
+            totalCurrency -= jumpBoostCost;
+            isJumpBoostOwned = true;
         }
-        else if(isJumpBoostActive == true)
+        if (isJumpBoostOwned == true)
         {
-            isJumpBoostActive = false;
-            jumpBoostButton.SetActive(false);
-            currentAdaptations--;
+            if (isJumpBoostActive == false)
+            {
+                isJumpBoostActive = true;
+                jumpBoostButton.SetActive(true);
+                currentAdaptations++;
+            }
+            else if (isJumpBoostActive == true)
+            {
+                isJumpBoostActive = false;
+                jumpBoostButton.SetActive(false);
+                totalCurrency += jumpBoostCost / 2;
+                isJumpBoostOwned = false;
+                currentAdaptations--;
+            }
         }
-        else
+        else if (currentAdaptations >= maxAdaptations)
         {
             StartCoroutine(MaxAdaptationCoroutine());
         }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
     }
 
     public void SpeedBoostButtonHandler()
     {
-        if (isSpeedBoostActive == false && currentAdaptations < maxAdaptations)
+        if (speedBoostCost <= totalCurrency && isSpeedBoostOwned == false && currentAdaptations < maxAdaptations)
         {
-            isSpeedBoostActive = true;
-            speedBoostButton.SetActive(true);
-            currentAdaptations++;
+            totalCurrency -= speedBoostCost;
+            isSpeedBoostOwned = true;
         }
-        else if (isSpeedBoostActive == true)
+        if (isSpeedBoostOwned == true)
         {
-            isSpeedBoostActive = false;
-            speedBoostButton.SetActive(false);
-            currentAdaptations--;
+            if (isSpeedBoostActive == false)
+            {
+                isSpeedBoostActive = true;
+                speedBoostButton.SetActive(true);
+                currentAdaptations++;
+            }
+            else if (isSpeedBoostActive == true)
+            {
+                isSpeedBoostActive = false;
+                speedBoostButton.SetActive(false);
+                totalCurrency += speedBoostCost / 2;
+                isSpeedBoostOwned = false;
+                currentAdaptations--;
+            }
         }
-        else
+        else if (currentAdaptations >= maxAdaptations)
         {
             StartCoroutine(MaxAdaptationCoroutine());
         }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
     }
 
     public void SmallerSizeButtonHandler()
     {
-        if (isSmallerSizeActive == false && currentAdaptations < maxAdaptations)
+        if (smallerSizeCost <= totalCurrency && isSmallerSizeOwned == false && currentAdaptations < maxAdaptations)
         {
-            isSmallerSizeActive = true;
-            smallSizeButton.SetActive(true);
-            this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            currentAdaptations++;
+            totalCurrency -= smallerSizeCost;
+            isSmallerSizeOwned = true;
         }
-        else if (isSmallerSizeActive == true)
+
+        if (isSmallerSizeOwned == true)
         {
-            isSmallerSizeActive = false;
-            smallSizeButton.SetActive(false);
-            this.transform.localScale = Vector3.one;
-            currentAdaptations--;
+
+            if (isSmallerSizeActive == false)
+            {
+                isSmallerSizeActive = true;
+                smallSizeButton.SetActive(true);
+                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                currentAdaptations++;
+            }
+            else if (isSmallerSizeActive == true)
+            {
+                isSmallerSizeActive = false;
+                smallSizeButton.SetActive(false);
+                this.transform.localScale = Vector3.one;
+                totalCurrency += smallerSizeCost / 2;
+                isSmallerSizeOwned = false;
+                currentAdaptations--;
+            }
+
         }
-        else
+        else if(currentAdaptations >= maxAdaptations)
         {
             StartCoroutine(MaxAdaptationCoroutine());
         }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+
     }
 
     IEnumerator MaxAdaptationCoroutine()
