@@ -77,9 +77,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
-        inputHandler = PlayerInputHandler.Instance;
+        
         UnityEngine.Cursor.visible = false;
         _UICurrency = GameObject.Find("CurrencyText").GetComponent<UICurrency>();
+    }
+
+    private void Start()
+    {
+        inputHandler = PlayerInputHandler.Instance;
     }
 
     void Update()

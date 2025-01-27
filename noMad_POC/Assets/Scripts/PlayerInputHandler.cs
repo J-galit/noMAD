@@ -37,6 +37,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Awake()
     {
+        print("InputManager Working");
         if (Instance == null)
         {
             Instance = this;
