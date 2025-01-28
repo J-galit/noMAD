@@ -36,6 +36,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 3.0f;
     [SerializeField] private float sprintMultiplier = 2.0f;
+    private float currentWalkSpeed;
 
     [Header("Speed Adaptation Parameters")]
     [SerializeField] private float speedBoostMultiplier;
@@ -128,7 +129,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             OnAttack();
         }
-
+        
 
     }
     private void OnTriggerEnter(Collider other)
@@ -232,15 +233,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private IEnumerator ShopCooldownCoroutine()
     {
+        
         //timer to prevent player from spamming shops
         yield return new WaitForSeconds(0.2f);
         if (isAbleToShop == true)
         {
             isAbleToShop = false;
+            
         }
         else
         {
+            
             isAbleToShop = true;
+            
         }
     }
 
@@ -251,6 +256,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (adaptationsShop.activeSelf == false && isAbleToShop == true)
             {
                 UnityEngine.Cursor.visible = true;
+                gameObject.GetComponent<CharacterController>().enabled = false;
                 adaptationsShop.SetActive(true);
                 StartCoroutine(ShopCooldownCoroutine());
             }
@@ -258,6 +264,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
+                gameObject.GetComponent<CharacterController>().enabled = true;
                 StartCoroutine(ShopCooldownCoroutine());
             }
         }
@@ -351,6 +358,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isSmallerSizeActive = false;
                 smallSizeButton.SetActive(false);
+                
                 this.transform.localScale = Vector3.one;
                 totalCurrency += smallerSizeCost / 2;
                 isSmallerSizeOwned = false;
