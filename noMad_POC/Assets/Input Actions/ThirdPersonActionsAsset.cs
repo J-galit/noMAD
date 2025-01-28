@@ -165,7 +165,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
                 {
                     ""name"": """",
                     ""id"": ""ec0b6e97-49ba-44a1-bb7f-c5f5777e486d"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -231,7 +231,7 @@ public partial class @ThirdPersonActionsAsset: IInputActionCollection2, IDisposa
                 {
                     ""name"": """",
                     ""id"": ""bb93c73d-2927-43c6-9f1a-94c457782032"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
