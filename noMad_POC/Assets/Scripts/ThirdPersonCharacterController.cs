@@ -59,7 +59,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
+    [SerializeField] private float smallSizeMultiplier;
     [SerializeField] private bool isLargerSizeActive;
+    [SerializeField] private float largeSizeMultiplier;
     [SerializeField] private int totalCurrency;
     [SerializeField] private bool isInDen; //only serialized for debugging
     private bool isAbleToShop = true;
@@ -213,6 +215,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (isAttacking == false)
         {
+            attackPrefab.transform.localScale = new Vector3 (transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, transform.localScale.z * 1.5f);
             Instantiate(attackPrefab, transform);
             isAttacking = true;
             StartCoroutine(AttackCooldownCoroutine());
@@ -351,7 +354,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isSmallerSizeActive = true;
                 smallSizeButton.SetActive(true);
-                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                this.transform.localScale = transform.localScale * smallSizeMultiplier;
                 currentAdaptations++;
             }
             else if (isSmallerSizeActive == true)
@@ -359,7 +362,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isSmallerSizeActive = false;
                 smallSizeButton.SetActive(false);
                 
-                this.transform.localScale = Vector3.one;
+                this.transform.localScale = transform.localScale /smallSizeMultiplier;
                 totalCurrency += smallerSizeCost / 2;
                 isSmallerSizeOwned = false;
                 currentAdaptations--;
@@ -390,14 +393,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isLargerSizeActive = true;
                 largeSizeButton.SetActive(true);
-                this.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                this.transform.localScale = transform.localScale * largeSizeMultiplier;
                 currentAdaptations++;
             }
             else if (isLargerSizeOwned == true)
             {
                 isLargerSizeActive = false;
                 largeSizeButton.SetActive(false);
-                this.transform.localScale = Vector3.one;
+                this.transform.localScale = transform.localScale/largeSizeMultiplier;
                 totalCurrency += smallerSizeCost / 2;
                 isLargerSizeOwned = false;
                 currentAdaptations--;
