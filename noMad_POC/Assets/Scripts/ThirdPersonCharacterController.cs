@@ -14,6 +14,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
+    [SerializeField] private GameObject largeAttackButton;
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
@@ -31,6 +32,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isSmallerSizeOwned;
     private int largerSizeCost = 100;
     private bool isLargerSizeOwned;
+    private int largerAttackCost = 100;
+    private bool isLargerAttackOwned;
 
 
     [Header("Movement Speeds")]
@@ -56,6 +59,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject attackPrefab;
     [SerializeField] private bool isAttacking;
 
+    [Header("Attack Adaptation Parameters")]
+    [SerializeField] private float attackSizeMultiplier;
+    [SerializeField] private bool isLargerAttackActive;
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
@@ -215,7 +221,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (isAttacking == false)
         {
-            attackPrefab.transform.localScale = new Vector3 (transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, transform.localScale.z * 1.5f);
             Instantiate(attackPrefab, transform);
             isAttacking = true;
             StartCoroutine(AttackCooldownCoroutine());
@@ -414,6 +419,39 @@ public class ThirdPersonCharacterController : MonoBehaviour
         _UICurrency.UpdateCurrency(totalCurrency);
 
 
+    }
+
+    public void LargerAttackButtonHandler()
+    {
+        if (largerAttackCost <= totalCurrency && isLargerAttackOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= largerAttackCost;
+            isLargerAttackOwned = true;
+        }
+        if (isLargerAttackOwned == true)
+        {
+            if (isLargerAttackActive == false)
+            {
+                isLargerAttackActive = true;
+                largeAttackButton.SetActive(true);
+                attackPrefab.transform.localScale = transform.localScale * attackSizeMultiplier;
+                currentAdaptations++;
+            }
+            else if (isLargerAttackActive == true)
+            {
+                isLargerAttackActive = false;
+                largeAttackButton.SetActive(false);
+                attackPrefab.transform.localScale = transform.localScale / attackSizeMultiplier;
+                totalCurrency += largerAttackCost/ 2;
+                isLargerAttackOwned = false;
+                currentAdaptations--;
+            }
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
     }
 
     IEnumerator MaxAdaptationCoroutine()

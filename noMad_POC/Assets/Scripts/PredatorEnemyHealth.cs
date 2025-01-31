@@ -24,6 +24,10 @@ public class PredatorEnemyHealth : MonoBehaviour
                 health--;
                 isIFramesActive = true;
                 StartCoroutine(InvincibilityCoroutine());
+                if(health <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
             else if(health <= 0)
             {
