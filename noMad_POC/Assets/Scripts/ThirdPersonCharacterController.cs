@@ -14,6 +14,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
+    [SerializeField] private GameObject largeAttackButton;
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
@@ -31,6 +32,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isSmallerSizeOwned;
     private int largerSizeCost = 100;
     private bool isLargerSizeOwned;
+    private int largerAttackCost = 100;
+    private bool isLargerAttackOwned;
 
 
     [Header("Movement Speeds")]
@@ -56,10 +59,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject attackPrefab;
     [SerializeField] private bool isAttacking;
 
+    [Header("Attack Adaptation Parameters")]
+    [SerializeField] private float attackSizeMultiplier;
+    [SerializeField] private bool isLargerAttackActive;
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
+    [SerializeField] private float smallSizeMultiplier;
     [SerializeField] private bool isLargerSizeActive;
+    [SerializeField] private float largeSizeMultiplier;
     [SerializeField] private int totalCurrency;
     [SerializeField] private bool isInDen; //only serialized for debugging
     private bool isAbleToShop = true;
@@ -80,6 +88,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Awake()
     {
+        attackPrefab.transform.localScale = attackPrefab.transform.localScale;
+
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         
@@ -351,7 +361,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isSmallerSizeActive = true;
                 smallSizeButton.SetActive(true);
-                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                this.transform.localScale = transform.localScale * smallSizeMultiplier;
                 currentAdaptations++;
             }
             else if (isSmallerSizeActive == true)
@@ -359,7 +369,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isSmallerSizeActive = false;
                 smallSizeButton.SetActive(false);
                 
-                this.transform.localScale = Vector3.one;
+                this.transform.localScale = transform.localScale /smallSizeMultiplier;
                 totalCurrency += smallerSizeCost / 2;
                 isSmallerSizeOwned = false;
                 currentAdaptations--;
@@ -390,14 +400,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isLargerSizeActive = true;
                 largeSizeButton.SetActive(true);
-                this.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                this.transform.localScale = transform.localScale * largeSizeMultiplier;
                 currentAdaptations++;
             }
             else if (isLargerSizeOwned == true)
             {
                 isLargerSizeActive = false;
                 largeSizeButton.SetActive(false);
-                this.transform.localScale = Vector3.one;
+                this.transform.localScale = transform.localScale/largeSizeMultiplier;
                 totalCurrency += smallerSizeCost / 2;
                 isLargerSizeOwned = false;
                 currentAdaptations--;
@@ -411,6 +421,39 @@ public class ThirdPersonCharacterController : MonoBehaviour
         _UICurrency.UpdateCurrency(totalCurrency);
 
 
+    }
+
+    public void LargerAttackButtonHandler()
+    {
+        if (largerAttackCost <= totalCurrency && isLargerAttackOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= largerAttackCost;
+            isLargerAttackOwned = true;
+        }
+        if (isLargerAttackOwned == true)
+        {
+            if (isLargerAttackActive == false)
+            {
+                isLargerAttackActive = true;
+                largeAttackButton.SetActive(true);
+                attackPrefab.transform.localScale = transform.localScale * attackSizeMultiplier;
+                currentAdaptations++;
+            }
+            else if (isLargerAttackActive == true)
+            {
+                isLargerAttackActive = false;
+                largeAttackButton.SetActive(false);
+                attackPrefab.transform.localScale = attackPrefab.transform.localScale / attackSizeMultiplier;
+                totalCurrency += largerAttackCost/ 2;
+                isLargerAttackOwned = false;
+                currentAdaptations--;
+            }
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
     }
 
     IEnumerator MaxAdaptationCoroutine()
