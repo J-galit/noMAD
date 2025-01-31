@@ -88,6 +88,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Awake()
     {
+        attackPrefab.transform.localScale = attackPrefab.transform.localScale;
+
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         
@@ -441,7 +443,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isLargerAttackActive = false;
                 largeAttackButton.SetActive(false);
-                attackPrefab.transform.localScale = transform.localScale / attackSizeMultiplier;
+                attackPrefab.transform.localScale = attackPrefab.transform.localScale / attackSizeMultiplier;
                 totalCurrency += largerAttackCost/ 2;
                 isLargerAttackOwned = false;
                 currentAdaptations--;
