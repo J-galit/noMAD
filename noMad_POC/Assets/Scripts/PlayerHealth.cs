@@ -8,8 +8,10 @@ public class PlayerHealth : MonoBehaviour
     public int health;
     private bool isInCombat, isCoroutineActive;
     [SerializeField] GameObject[] healthDisplayArray;
+    private ThirdPersonCharacterController thirdPersonCharacterController;
     private void Awake()
     {
+        thirdPersonCharacterController = GetComponent<ThirdPersonCharacterController>();
         isCoroutineActive = false;
     }
 
@@ -23,13 +25,17 @@ public class PlayerHealth : MonoBehaviour
 
         if (collision.gameObject.CompareTag("EnemyAttack"))
         {
+            Debug.Log("getting hit");
             if (health > 0)
             {
+                Debug.Log("still getting hit");
                 isInCombat = true;
                 healthDisplayArray[health].gameObject.SetActive(false);
                 health--;
-                if(isCoroutineActive == false)
+                Debug.Log("still getting hit after health --");
+                if (isCoroutineActive == false)
                 {
+                    Debug.Log("still getting hit");
                     StartCoroutine(OutOfCombatCoroutine());
                 }
             }
@@ -43,7 +49,7 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator OutOfCombatCoroutine()
     {
         isCoroutineActive = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(5f / thirdPersonCharacterController.healingSpeedMultiplier);
         isCoroutineActive = false;
         isInCombat = false;
         if (isInCombat == false)
