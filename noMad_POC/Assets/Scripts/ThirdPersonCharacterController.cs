@@ -97,7 +97,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
    
     //Audio variables 
     public AudioSource coinGetPlayer;
-
+    public AudioSource enemyTakeDamagePlayer;
+    public AudioSource jumpPlayer;
+    public AudioSource highJumpPlayer;
     private void Awake()
     {
         attackSpeedMultiplier = 1;
@@ -205,9 +207,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 if (isJumpBoostActive == true)
                 {
                     currentVelocity.y = jumpForce * jumpBoostMultiplier;
+                    highJumpPlayer.Play();
                 }
                 else
                     currentVelocity.y = jumpForce;
+                    jumpPlayer.Play();
             }
             coyoteTimeCounter = 0; // Prevent multiple jumps in air
 
@@ -239,6 +243,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             Instantiate(attackPrefab, transform);
             isAttacking = true;
+            enemyTakeDamagePlayer.Play();
             StartCoroutine(AttackCooldownCoroutine());
         }
     }
