@@ -95,8 +95,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private Vector3 currentVelocity;
    
-
-
+    //Audio variables 
+    public AudioSource coinGetPlayer;
 
     private void Awake()
     {
@@ -167,6 +167,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             totalCurrency += 100;
             Debug.Log(totalCurrency);
             _UICurrency.UpdateCurrency(totalCurrency);
+            coinGetPlayer.Play();
             Destroy(other.gameObject);
         }
     }
