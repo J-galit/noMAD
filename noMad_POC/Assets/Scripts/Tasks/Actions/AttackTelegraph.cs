@@ -7,9 +7,8 @@ namespace NodeCanvas.Tasks.Actions {
 	public class AttackTelegraph : ActionTask {
 
 		public BBParameter<GameObject> attackTelegraph;
-
 		protected override void OnExecute() {
-			GameObject.Instantiate(attackTelegraph.value, new Vector3(agent.transform.position.x, agent.transform.position.y, agent.transform.position.z), agent.transform.rotation);
+			GameObject.Instantiate(attackTelegraph.value, agent.transform); //new Vector3(agent.transform.position.x, agent.transform.position.y, agent.transform.position.z), agent.transform.rotation);
 			EndAction(true);
 		}
 	}
