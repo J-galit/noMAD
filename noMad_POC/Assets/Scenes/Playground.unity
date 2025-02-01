@@ -1135,6 +1135,7 @@ MonoBehaviour:
   speedBoostButton: {fileID: 1490006654}
   smallSizeButton: {fileID: 1852128115}
   largeSizeButton: {fileID: 785069333}
+  fasterHealingButton: {fileID: 0}
   largeAttackButton: {fileID: 182324405}
   fasterAttackButton: {fileID: 484351574}
   maxAdaptationErrorUI: {fileID: 487016479}
@@ -1147,6 +1148,8 @@ MonoBehaviour:
   coyoteTimeDuration: 0.2
   jumpBoostMultiplier: 1.5
   isJumpBoostActive: 0
+  healingSpeedMultiplier: 0
+  isFasterHealingActive: 0
   attackPrefab: {fileID: 126204158045050798, guid: 7c264b19d48dfbc499398060d60e6849, type: 3}
   isAttacking: 0
   attackSizeMultiplier: 1.5
@@ -10244,7 +10247,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562765860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09897817, y: 0.000000008560945, z: -8.515279e-10, w: 0.99508965}
+  m_LocalRotation: {x: 0.09897817, y: -0.000000008560947, z: 8.5152807e-10, w: 0.99508965}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
