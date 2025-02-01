@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int health;
+    public int maxHealth;
     private bool isInCombat, isCoroutineActive;
     [SerializeField] GameObject[] healthDisplayArray;
     private ThirdPersonCharacterController thirdPersonCharacterController;
@@ -15,9 +16,14 @@ public class PlayerHealth : MonoBehaviour
         isCoroutineActive = false;
     }
 
-    private void Update()
+    private void Start()
     {
-        Debug.Log("player health: " + health);
+        HealthCheck(health);
+       /* for (int i = 0; i < health + 1; i++)
+        {
+            healthDisplayArray[i].gameObject.SetActive(true);
+        }
+        maxHealth = health; */
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -25,17 +31,14 @@ public class PlayerHealth : MonoBehaviour
 
         if (collision.gameObject.CompareTag("EnemyAttack"))
         {
-            Debug.Log("getting hit");
+
             if (health > 0)
             {
-                Debug.Log("still getting hit");
                 isInCombat = true;
                 healthDisplayArray[health].gameObject.SetActive(false);
                 health--;
-                Debug.Log("still getting hit after health --");
                 if (isCoroutineActive == false)
                 {
-                    Debug.Log("still getting hit");
                     StartCoroutine(OutOfCombatCoroutine());
                 }
             }
@@ -54,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
         isInCombat = false;
         if (isInCombat == false)
         {
-            if (health < healthDisplayArray.Length - 1)
+            if (health < maxHealth)
             {
                 health++;
                 healthDisplayArray[health].gameObject.SetActive(true);
@@ -72,5 +75,21 @@ public class PlayerHealth : MonoBehaviour
         {
             yield break;
         }
+    }
+
+    public void HealthCheck(int newHealth)
+    {
+        maxHealth += newHealth;
+        health = maxHealth;
+        for (int i = 0; i < healthDisplayArray.Length; i++)
+        {
+            healthDisplayArray[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < health + 1; i++)
+        {
+            healthDisplayArray[i].gameObject.SetActive(true);
+        }
+        //maxHealth = newHealth;
     }
 }

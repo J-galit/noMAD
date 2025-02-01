@@ -9,11 +9,14 @@ using UnityEngine.UIElements;
 //this script is gonna be so fucking long
 public class ThirdPersonCharacterController : MonoBehaviour
 {
+    private PlayerHealth playerHealth;
+
     [SerializeField] private GameObject adaptationsShop;
     [SerializeField] private GameObject jumpBoostButton;
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
+    [SerializeField] private GameObject moreHealthButton;
     [SerializeField] private GameObject fasterHealingButton;
     [SerializeField] private GameObject largeAttackButton;
     [SerializeField] private GameObject fasterAttackButton;
@@ -34,6 +37,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isSmallerSizeOwned;
     private int largerSizeCost = 100;
     private bool isLargerSizeOwned;
+    private int moreHealthCost = 100;
+    private bool isMoreHealthOwned;
     private int fasterHealingCost = 100;
     private bool isFasterHealingOwned;
     private int largerAttackCost = 100;
@@ -62,6 +67,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private bool isJumpBoostActive;
 
     [Header("Health Adaptation Parameters")]
+    [SerializeField] public int newMaxHealth;
+    [SerializeField] private bool isMoreHealthActive;
     [SerializeField] public float healingSpeedMultiplier;
     [SerializeField] private bool isFasterHealingActive;
 
@@ -102,6 +109,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public AudioSource highJumpPlayer;
     private void Awake()
     {
+        playerHealth = GameObject.Find("Player").GetComponent<PlayerHealth>();
+
         attackSpeedMultiplier = 1;
         healingSpeedMultiplier = 1;
         characterController = GetComponent<CharacterController>();
@@ -432,6 +441,43 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
         _UICurrency.UpdateCurrency(totalCurrency);
 
+
+    }
+
+    public void MoreHealthButtonHandler()
+    {
+        if (moreHealthCost <= totalCurrency && isMoreHealthOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= moreHealthCost;
+            isMoreHealthOwned = true;
+        }
+
+        if (isMoreHealthOwned == true)
+        {
+
+            if (isMoreHealthActive == false)
+            {
+                isMoreHealthActive = true;
+                moreHealthButton.SetActive(true);
+                playerHealth.HealthCheck(newMaxHealth);
+                currentAdaptations++;
+            }
+            else if (isMoreHealthOwned == true)
+            {
+                isMoreHealthActive = false;
+                moreHealthButton.SetActive(false);
+                playerHealth.HealthCheck(-newMaxHealth);
+                totalCurrency += moreHealthCost / 2;
+                isMoreHealthOwned = false;
+                currentAdaptations--;
+            }
+
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
 
     }
 
