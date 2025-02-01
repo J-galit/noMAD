@@ -15,6 +15,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
     [SerializeField] private GameObject largeAttackButton;
+    [SerializeField] private GameObject fasterAttackButton;
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
@@ -34,6 +35,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isLargerSizeOwned;
     private int largerAttackCost = 100;
     private bool isLargerAttackOwned;
+    private int fasterAttackCost = 100;
+    private bool isFasterAttackOwned;
 
 
     [Header("Movement Speeds")]
@@ -62,6 +65,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Attack Adaptation Parameters")]
     [SerializeField] private float attackSizeMultiplier;
     [SerializeField] private bool isLargerAttackActive;
+    [SerializeField] private float attackSpeedMultiplier;
+    [SerializeField] private bool isFasterAttackActive;
 
     [Header("Misc. Adaptations")]
     [SerializeField] private bool isSmallerSizeActive;
@@ -88,8 +93,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Awake()
     {
-        attackPrefab.transform.localScale = attackPrefab.transform.localScale;
-
+        attackSpeedMultiplier = 1;
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         
@@ -99,6 +103,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Start()
     {
+        attackPrefab.transform.localScale = attackPrefab.transform.localScale;
+
         inputHandler = PlayerInputHandler.Instance;
     }
 
@@ -232,7 +238,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private IEnumerator AttackCooldownCoroutine()
     {
         //timer to prevent player from spamming attack
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.8f / attackSpeedMultiplier);
         isAttacking = false;
     }
 
@@ -446,6 +452,39 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 attackPrefab.transform.localScale = attackPrefab.transform.localScale / attackSizeMultiplier;
                 totalCurrency += largerAttackCost/ 2;
                 isLargerAttackOwned = false;
+                currentAdaptations--;
+            }
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+    }
+
+    public void FasterAttackButtonHandler()
+    {
+        if (fasterAttackCost <= totalCurrency && isFasterAttackOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= fasterAttackCost;
+            isFasterAttackOwned = true;
+        }
+        if (isFasterAttackOwned == true)
+        {
+            if (isFasterAttackActive == false)
+            {
+                isFasterAttackActive = true;
+                fasterAttackButton.SetActive(true);
+                attackSpeedMultiplier = 1.5f;
+                currentAdaptations++;
+            }
+            else if (isFasterAttackActive == true)
+            {
+                isFasterAttackActive = false;
+                fasterAttackButton.SetActive(false);
+                attackSpeedMultiplier = 1;
+                totalCurrency += fasterAttackCost / 2;
+                isFasterAttackOwned = false;
                 currentAdaptations--;
             }
         }
