@@ -14,6 +14,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
+    [SerializeField] private GameObject fasterHealingButton;
     [SerializeField] private GameObject largeAttackButton;
     [SerializeField] private GameObject fasterAttackButton;
 
@@ -33,6 +34,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isSmallerSizeOwned;
     private int largerSizeCost = 100;
     private bool isLargerSizeOwned;
+    private int fasterHealingCost = 100;
+    private bool isFasterHealingOwned;
     private int largerAttackCost = 100;
     private bool isLargerAttackOwned;
     private int fasterAttackCost = 100;
@@ -57,6 +60,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Jump Adaptation Parameters")]
     [SerializeField] private float jumpBoostMultiplier;
     [SerializeField] private bool isJumpBoostActive;
+
+    [Header("Health Adaptation Parameters")]
+    [SerializeField] private float healingSpeedMultiplier;
+    [SerializeField] private bool isFasterHealingActive;
 
     [Header("Attack Parameters")]
     [SerializeField] private GameObject attackPrefab;
@@ -429,6 +436,43 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     }
 
+    public void FasterHealingButtonHandler()
+    {
+        if (fasterHealingCost <= totalCurrency && isFasterHealingOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= fasterHealingCost;
+            isFasterHealingOwned = true;
+        }
+
+        if (isFasterHealingOwned == true)
+        {
+
+            if (isFasterHealingActive == false)
+            {
+                isFasterHealingActive = true;
+                fasterHealingButton.SetActive(true);
+                this.transform.localScale = transform.localScale * largeSizeMultiplier;
+                currentAdaptations++;
+            }
+            else if (isLargerSizeOwned == true)
+            {
+                isLargerSizeActive = false;
+                largeSizeButton.SetActive(false);
+                this.transform.localScale = transform.localScale / largeSizeMultiplier;
+                totalCurrency += smallerSizeCost / 2;
+                isLargerSizeOwned = false;
+                currentAdaptations--;
+            }
+
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+    }
+
     public void LargerAttackButtonHandler()
     {
         if (largerAttackCost <= totalCurrency && isLargerAttackOwned == false && currentAdaptations < maxAdaptations)
@@ -475,14 +519,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isFasterAttackActive = true;
                 fasterAttackButton.SetActive(true);
-                attackSpeedMultiplier = 1.5f;
+                attackSpeedMultiplier = attackSpeedMultiplier * 1.5f;
                 currentAdaptations++;
             }
             else if (isFasterAttackActive == true)
             {
                 isFasterAttackActive = false;
                 fasterAttackButton.SetActive(false);
-                attackSpeedMultiplier = 1;
+                attackSpeedMultiplier = attackSpeedMultiplier / 1.5f;
                 totalCurrency += fasterAttackCost / 2;
                 isFasterAttackOwned = false;
                 currentAdaptations--;
