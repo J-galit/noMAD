@@ -62,7 +62,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private bool isJumpBoostActive;
 
     [Header("Health Adaptation Parameters")]
-    [SerializeField] private float healingSpeedMultiplier;
+    [SerializeField] public float healingSpeedMultiplier;
     [SerializeField] private bool isFasterHealingActive;
 
     [Header("Attack Parameters")]
@@ -103,6 +103,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void Awake()
     {
         attackSpeedMultiplier = 1;
+        healingSpeedMultiplier = 1;
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         
@@ -184,14 +185,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        if(collision.gameObject.CompareTag("EnemyAttack"))
-        {
-            Debug.Log("i took dmg");
-        }
-    }
 
     void HandleJumping()
     {
@@ -285,7 +278,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (adaptationsShop.activeSelf == false && isAbleToShop == true)
             {
                 UnityEngine.Cursor.visible = true;
-                gameObject.GetComponent<CharacterController>().enabled = false;
+                //gameObject.GetComponent<CharacterController>().enabled = false;
                 adaptationsShop.SetActive(true);
                 StartCoroutine(ShopCooldownCoroutine());
             }
@@ -293,7 +286,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
-                gameObject.GetComponent<CharacterController>().enabled = true;
+                //gameObject.GetComponent<CharacterController>().enabled = true;
                 StartCoroutine(ShopCooldownCoroutine());
             }
         }
@@ -457,16 +450,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isFasterHealingActive = true;
                 fasterHealingButton.SetActive(true);
-                this.transform.localScale = transform.localScale * largeSizeMultiplier;
+                healingSpeedMultiplier = healingSpeedMultiplier * 1.5f;
                 currentAdaptations++;
             }
-            else if (isLargerSizeOwned == true)
+            else if (isFasterHealingOwned == true)
             {
-                isLargerSizeActive = false;
-                largeSizeButton.SetActive(false);
-                this.transform.localScale = transform.localScale / largeSizeMultiplier;
-                totalCurrency += smallerSizeCost / 2;
-                isLargerSizeOwned = false;
+                isFasterHealingActive = false;
+                fasterHealingButton.SetActive(false);
+                healingSpeedMultiplier = healingSpeedMultiplier / 1.5f;
+                totalCurrency += fasterHealingCost / 2;
+                isFasterHealingOwned = false;
                 currentAdaptations--;
             }
 
