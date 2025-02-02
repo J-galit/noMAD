@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyAttack : MonoBehaviour
+public class DestroyPlayerAttack : MonoBehaviour
 {
     void Start()
     {
@@ -11,7 +11,7 @@ public class DestroyAttack : MonoBehaviour
 
     IEnumerator DestroyCoroutine()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
         Destroy(this.gameObject);
     }
 }

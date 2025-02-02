@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAttackBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject enemyAttack;
+    public AudioSource enemyTelegraphSound;
 
     void Start()
     {
@@ -13,6 +14,7 @@ public class EnemyAttackBehaviour : MonoBehaviour
 
     IEnumerator AttackCoroutine()
     {
+        enemyTelegraphSound.Play();
         yield return new WaitForSeconds(1);
         Instantiate(enemyAttack, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
         Destroy(this.gameObject);
