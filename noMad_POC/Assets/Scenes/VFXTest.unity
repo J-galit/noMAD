@@ -361,9 +361,21 @@ PrefabInstance:
       propertyPath: SizeModule.enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4855594641316221139, guid: bc2437d297b358345afa457b1f20c0f5, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8729525343346626895, guid: bc2437d297b358345afa457b1f20c0f5, type: 3}
       propertyPath: m_Name
       value: Bug Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745300281270607223, guid: bc2437d297b358345afa457b1f20c0f5, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896805070608092591, guid: bc2437d297b358345afa457b1f20c0f5, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
