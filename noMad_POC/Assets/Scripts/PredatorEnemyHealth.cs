@@ -20,10 +20,14 @@ public class PredatorEnemyHealth : MonoBehaviour
         {
             if(health > 0 && isIFramesActive == false)
             {
+                //remove a health signifier
                 healthDisplayArray[health-1].gameObject.SetActive(false);
+                //lose health
                 health--;
+                //give invincibility
                 isIFramesActive = true;
                 StartCoroutine(InvincibilityCoroutine());
+                //dies when health drops to 0 or below
                 if(health <= 0)
                 {
                     Destroy(gameObject);
@@ -38,6 +42,7 @@ public class PredatorEnemyHealth : MonoBehaviour
 
     IEnumerator InvincibilityCoroutine()
     {
+        //prevents enemy getting hit twice from entering triggers more than once
         yield return new WaitForSeconds(0.2f);
         isIFramesActive = false;
     }

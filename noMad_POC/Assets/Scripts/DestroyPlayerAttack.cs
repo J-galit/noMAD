@@ -11,6 +11,7 @@ public class DestroyPlayerAttack : MonoBehaviour
 
     IEnumerator DestroyCoroutine()
     {
+        //after 0.15s attack object is destroyed
         yield return new WaitForSeconds(0.15f);
         Destroy(this.gameObject);
     }

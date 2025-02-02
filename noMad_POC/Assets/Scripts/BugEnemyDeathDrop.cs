@@ -8,9 +8,12 @@ public class BugEnemyDeathDrop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //if hit by player attack
         if (other.CompareTag("Attack"))
         {
+            //drops currency
             Instantiate(currencyDrop, transform.position, Quaternion.identity);
+            //destroys bug
             Destroy(gameObject);
         }
     }
