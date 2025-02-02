@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -90,6 +91,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private int totalCurrency;
     [SerializeField] private bool isInDen; //only serialized for debugging
     private bool isAbleToShop = true;
+    private bool isShopping = false;
 
     [Header("Camera Parameters")]
     public Transform cam;
@@ -130,6 +132,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void Update()
     {
+        HandleCamera();
         HandleCoyoteTime();
         HandleMovement();
         HandleShopping();
@@ -146,6 +149,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             //makes player faster
             speed = walkSpeed * speedBoostMultiplier;
+        }
+        else if (isShopping == true)
+        {
+            speed = 0;
         }
         else
             speed = walkSpeed;
@@ -282,9 +289,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (adaptationsShop.activeSelf == false && isAbleToShop == true)
             {
                 UnityEngine.Cursor.visible = true;
-                //the commented code below is important for Jayden to check out 
-
-                //gameObject.GetComponent<CharacterController>().enabled = false;
+                
+                //stops players from moving in the den
+                isShopping = true;
                 
                 adaptationsShop.SetActive(true);
                 //prevents shop from flickering on and off constantly
@@ -295,9 +302,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 UnityEngine.Cursor.visible = false;
                 adaptationsShop.SetActive(false);
-                //the commented code below is important for Jayden to check out 
-
-                //gameObject.GetComponent<CharacterController>().enabled = true;
+                
+                //Allows players to move again while in the den
+                isShopping = false;
                 
                 //prevents shop from flickering on and off constantly
                 StartCoroutine(ShopCooldownCoroutine());
@@ -320,6 +327,20 @@ public class ThirdPersonCharacterController : MonoBehaviour
             isAbleToShop = true;
         }
     }
+
+    void HandleCamera()
+    {
+        if (isShopping == true)
+        {
+            mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        }
+        if (isShopping == false)
+        {
+            mainCamera.GetComponent<CinemachineBrain>().enabled = true;
+        }
+    }
+
+
     /*
     * ADAPTATIONS CODE STARTED
     */
