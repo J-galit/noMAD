@@ -101,8 +101,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private PlayerInputHandler inputHandler;
 
     private Vector3 currentVelocity;
-   
+
     //Audio variables 
+    [Header("Audio")]
     public AudioSource coinGetPlayer;
     public AudioSource enemyTakeDamagePlayer;
     public AudioSource jumpPlayer;
