@@ -137,12 +137,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void HandleMovement()
     {
+        //calls jumping method
         HandleJumping();
 
 
         float speed = walkSpeed;
         if (isSpeedBoostActive)
         {
+            //makes player faster
             speed = walkSpeed * speedBoostMultiplier;
         }
         else
@@ -157,10 +159,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
+            //makes player move
             characterController.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
+        //calls attack method
         if (inputHandler.AttackTriggered)
         {
             OnAttack();
@@ -198,29 +201,34 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void HandleJumping()
     {
-
+        //checks if player is on the ground
         if (characterController.isGrounded && coyoteTimeCounter > 0)
         {
             print("ground");
             currentVelocity.y = -2f;
-
+            //checks if player pressed jump
             if (inputHandler.JumpTriggered)
             {
                 print("Jumping");
                 if (isJumpBoostActive == true)
                 {
+                    //makes player jump higher
                     currentVelocity.y = jumpForce * jumpBoostMultiplier;
                     highJumpPlayer.Play();
                 }
                 else
+                {
+                    //makes player jump
                     currentVelocity.y = jumpForce;
                     jumpPlayer.Play();
+                }
             }
             coyoteTimeCounter = 0; // Prevent multiple jumps in air
 
         }
         else
         {
+            //gravity 
             currentVelocity.y -= gravity * Time.deltaTime;
         }
 
@@ -242,11 +250,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void OnAttack()
     {
+        //checks if player is already attacking or not
         if (isAttacking == false)
         {
+            //attack is instantiated
             Instantiate(attackPrefab, transform);
-            isAttacking = true;
+            isAttacking = true; //set to true to prevent multiple attacks at once
             enemyTakeDamagePlayer.Play();
+            //starts attack cooldown coroutine
             StartCoroutine(AttackCooldownCoroutine());
         }
     }
@@ -262,77 +273,91 @@ public class ThirdPersonCharacterController : MonoBehaviour
      * SHOPPING AND CURRENCY CODE STARTED
      */
 
+    void HandleShopping()
+    {
+        //checks if shop button was pressed and if player is in a den
+        if (inputHandler.ShopTriggered == true && isInDen)
+        {
+            //turns on shop if not open
+            if (adaptationsShop.activeSelf == false && isAbleToShop == true)
+            {
+                UnityEngine.Cursor.visible = true;
+                //the commented code below is important for Jayden to check out 
+
+                //gameObject.GetComponent<CharacterController>().enabled = false;
+                
+                adaptationsShop.SetActive(true);
+                //prevents shop from flickering on and off constantly
+                StartCoroutine(ShopCooldownCoroutine());
+            }
+            //turns off shop if open
+            else if (adaptationsShop.activeSelf == true && isAbleToShop == false)
+            {
+                UnityEngine.Cursor.visible = false;
+                adaptationsShop.SetActive(false);
+                //the commented code below is important for Jayden to check out 
+
+                //gameObject.GetComponent<CharacterController>().enabled = true;
+                
+                //prevents shop from flickering on and off constantly
+                StartCoroutine(ShopCooldownCoroutine());
+            }
+        }
+    }
 
     private IEnumerator ShopCooldownCoroutine()
     {
-        
+
         //timer to prevent player from spamming shops
         yield return new WaitForSeconds(0.2f);
         if (isAbleToShop == true)
         {
             isAbleToShop = false;
-            
+
         }
         else
         {
-            
             isAbleToShop = true;
-            
-        }
-    }
-
-    void HandleShopping()
-    {
-        if (inputHandler.ShopTriggered == true && isInDen)
-        {
-            if (adaptationsShop.activeSelf == false && isAbleToShop == true)
-            {
-                UnityEngine.Cursor.visible = true;
-                //gameObject.GetComponent<CharacterController>().enabled = false;
-                adaptationsShop.SetActive(true);
-                StartCoroutine(ShopCooldownCoroutine());
-            }
-            else if (adaptationsShop.activeSelf == true && isAbleToShop == false)
-            {
-                UnityEngine.Cursor.visible = false;
-                adaptationsShop.SetActive(false);
-                //gameObject.GetComponent<CharacterController>().enabled = true;
-                StartCoroutine(ShopCooldownCoroutine());
-            }
         }
     }
     /*
     * ADAPTATIONS CODE STARTED
     */
+
+    //Adaptation methods follow a very similar format, will explain everything in jumpboost method, and only comment on unique things in other adaptation methods
+   
     public void JumpBoostButtonHandler()
     {
+        //check if the player has enough currency to buy the adaptation
+        //check if the player doesn't own the adaptation
+        //check if the player hasn't reached max adaptations
         if (jumpBoostCost <= totalCurrency && isJumpBoostOwned == false && currentAdaptations < maxAdaptations)
         {
-            totalCurrency -= jumpBoostCost;
-            isJumpBoostOwned = true;
+            totalCurrency -= jumpBoostCost; //subtract the cost from the total currency
+            isJumpBoostOwned = true; //give ownership to player
         }
         if (isJumpBoostOwned == true)
         {
-            if (isJumpBoostActive == false)
+            if (isJumpBoostActive == false) //if adaptation wasn't active
             {
-                isJumpBoostActive = true;
-                jumpBoostButton.SetActive(true);
-                currentAdaptations++;
+                isJumpBoostActive = true; //set it to active because now the player owns it
+                jumpBoostButton.SetActive(true); //displays adaptation icon 
+                currentAdaptations++; //increases adaptation count
             }
-            else if (isJumpBoostActive == true)
+            else if (isJumpBoostActive == true) //if they clicked on the button while they own the adaptation already (selling the adaptation)
             {
-                isJumpBoostActive = false;
-                jumpBoostButton.SetActive(false);
-                totalCurrency += jumpBoostCost / 2;
-                isJumpBoostOwned = false;
-                currentAdaptations--;
+                isJumpBoostActive = false; //deactivate adaptation
+                jumpBoostButton.SetActive(false); //remove icon
+                totalCurrency += jumpBoostCost / 2; //give player half the money back
+                isJumpBoostOwned = false; //player no longer owns the adaptation
+                currentAdaptations--; //decrease adaptation count
             }
         }
-        else if (currentAdaptations >= maxAdaptations)
+        else if (currentAdaptations >= maxAdaptations) //if max adaptations reached
         {
-            StartCoroutine(MaxAdaptationCoroutine());
+            StartCoroutine(MaxAdaptationCoroutine()); //start error coroutine
         }
-        _UICurrency.UpdateCurrency(totalCurrency);
+        _UICurrency.UpdateCurrency(totalCurrency); //updates the currency in the UI
 
     }
 
@@ -383,15 +408,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isSmallerSizeActive = true;
                 smallSizeButton.SetActive(true);
-                this.transform.localScale = transform.localScale * smallSizeMultiplier;
+                this.transform.localScale = transform.localScale * smallSizeMultiplier; //makes player smaller
                 currentAdaptations++;
             }
             else if (isSmallerSizeActive == true)
             {
                 isSmallerSizeActive = false;
                 smallSizeButton.SetActive(false);
-                
-                this.transform.localScale = transform.localScale /smallSizeMultiplier;
+                this.transform.localScale = transform.localScale /smallSizeMultiplier; //returns player to normal size
                 totalCurrency += smallerSizeCost / 2;
                 isSmallerSizeOwned = false;
                 currentAdaptations--;
@@ -422,14 +446,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isLargerSizeActive = true;
                 largeSizeButton.SetActive(true);
-                this.transform.localScale = transform.localScale * largeSizeMultiplier;
+                this.transform.localScale = transform.localScale * largeSizeMultiplier; //makes player larger
                 currentAdaptations++;
             }
             else if (isLargerSizeOwned == true)
             {
                 isLargerSizeActive = false;
                 largeSizeButton.SetActive(false);
-                this.transform.localScale = transform.localScale/largeSizeMultiplier;
+                this.transform.localScale = transform.localScale/largeSizeMultiplier; //returns player to normal size
                 totalCurrency += smallerSizeCost / 2;
                 isLargerSizeOwned = false;
                 currentAdaptations--;
@@ -460,14 +484,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isMoreHealthActive = true;
                 moreHealthButton.SetActive(true);
-                playerHealth.HealthCheck(newMaxHealth);
+                playerHealth.HealthCheck(newMaxHealth); //sends float to the HealthCheck() method in the PlayerHealth script
                 currentAdaptations++;
             }
             else if (isMoreHealthOwned == true)
             {
                 isMoreHealthActive = false;
                 moreHealthButton.SetActive(false);
-                playerHealth.HealthCheck(-newMaxHealth);
+                playerHealth.HealthCheck(-newMaxHealth); //sends negative float, to revert back to base health
                 totalCurrency += moreHealthCost / 2;
                 isMoreHealthOwned = false;
                 currentAdaptations--;
@@ -497,14 +521,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isFasterHealingActive = true;
                 fasterHealingButton.SetActive(true);
-                healingSpeedMultiplier = healingSpeedMultiplier * 1.5f;
+                healingSpeedMultiplier = healingSpeedMultiplier * 1.5f; //makes health regen faster
                 currentAdaptations++;
             }
             else if (isFasterHealingOwned == true)
             {
                 isFasterHealingActive = false;
                 fasterHealingButton.SetActive(false);
-                healingSpeedMultiplier = healingSpeedMultiplier / 1.5f;
+                healingSpeedMultiplier = healingSpeedMultiplier / 1.5f; //returns health regen to normal
                 totalCurrency += fasterHealingCost / 2;
                 isFasterHealingOwned = false;
                 currentAdaptations--;
@@ -532,14 +556,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isLargerAttackActive = true;
                 largeAttackButton.SetActive(true);
-                attackPrefab.transform.localScale = transform.localScale * attackSizeMultiplier;
+                attackPrefab.transform.localScale = transform.localScale * attackSizeMultiplier; //makes attack bigger
                 currentAdaptations++;
             }
             else if (isLargerAttackActive == true)
             {
                 isLargerAttackActive = false;
                 largeAttackButton.SetActive(false);
-                attackPrefab.transform.localScale = attackPrefab.transform.localScale / attackSizeMultiplier;
+                attackPrefab.transform.localScale = attackPrefab.transform.localScale / attackSizeMultiplier; //returns attack to base size
                 totalCurrency += largerAttackCost/ 2;
                 isLargerAttackOwned = false;
                 currentAdaptations--;
@@ -565,14 +589,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 isFasterAttackActive = true;
                 fasterAttackButton.SetActive(true);
-                attackSpeedMultiplier = attackSpeedMultiplier * 1.5f;
+                attackSpeedMultiplier = attackSpeedMultiplier * 1.5f; //makes attack faster
                 currentAdaptations++;
             }
             else if (isFasterAttackActive == true)
             {
                 isFasterAttackActive = false;
                 fasterAttackButton.SetActive(false);
-                attackSpeedMultiplier = attackSpeedMultiplier / 1.5f;
+                attackSpeedMultiplier = attackSpeedMultiplier / 1.5f; //returns attack to base speed
                 totalCurrency += fasterAttackCost / 2;
                 isFasterAttackOwned = false;
                 currentAdaptations--;
@@ -587,9 +611,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     IEnumerator MaxAdaptationCoroutine()
     {
-        maxAdaptationErrorUI.SetActive(true);
+        maxAdaptationErrorUI.SetActive(true); //display error message
         yield return new WaitForSeconds(1f);
-        maxAdaptationErrorUI.SetActive(false);
+        maxAdaptationErrorUI.SetActive(false); //turn of error message
 
     }
 }
