@@ -9,6 +9,7 @@ TagManager:
   - EnemyAttack
   - Den
   - Currency
+  - Roof
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Roof
   - 
   - 
   - 
