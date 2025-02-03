@@ -42,9 +42,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a28bdc7f24b75c641b3adf14ab340d34, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 08b4fc87fc01802459efbe58f7301986, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.415
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -249,4 +249,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAttack: {fileID: 719366698053161682, guid: 9dcdba4c215c1c64ea394a5b90b7e7a9, type: 3}
   enemyTelegraphSound: {fileID: 5813376735118973814}
-  enemyAttackSound: {fileID: 0}
