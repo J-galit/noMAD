@@ -24,7 +24,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [SerializeField] private GameObject maxAdaptationErrorUI;
 
-    private int maxAdaptations = 2;
+    [SerializeField] private int maxAdaptations = 2;
     private int currentAdaptations;
 
     private UICurrency _UICurrency;
