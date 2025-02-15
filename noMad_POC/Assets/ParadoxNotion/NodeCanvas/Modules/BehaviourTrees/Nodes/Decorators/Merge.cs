@@ -1,21 +1,3 @@
-﻿using UnityEngine;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-namespace NodeCanvas.BehaviourTrees
-{
-
-    [Name("Merge", -1)]
-    [Description("Merge can accept multiple input connections and thus possible to re-use leaf nodes from multiple parents. Please note that this is experimental and can result in unexpected behaviour.")]
-    [Category("Decorators")]
-    public class Merge : BTDecorator
-    {
-
-        public override int maxInConnections => -1;
-
-        protected override Status OnExecute(Component agent, IBlackboard blackboard) {
-            if ( status != Status.Running ) { decoratedConnection.Reset(); }
-            return decoratedConnection.Execute(agent, blackboard);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3ebececab728302906d58ff22830d15843496fdf22019183a57de8965308e26e
+size 920

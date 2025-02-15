@@ -1,7 +1,3 @@
-#if UNITY_EDITOR
-namespace ParadoxNotion.Design
-{
-    ///<summary>Have some commonly stuff used across most inspectors and helper functions. Keep outside of Editor folder since many runtime classes use this in #if UNITY_EDITOR. This is a partial class. Different implementation provide different tools, so that everything is referenced from within one class.</summary>
-    public static partial class EditorUtils { }
-}
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:cd1c9047ef2060854b04a6c3b31c8062cdab4572cc78e9baeb4a9c8d3686c709
+size 630

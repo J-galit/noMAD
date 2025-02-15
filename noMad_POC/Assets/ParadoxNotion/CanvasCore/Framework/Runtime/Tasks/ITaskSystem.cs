@@ -1,17 +1,3 @@
-﻿using UnityEngine;
-
-namespace NodeCanvas.Framework
-{
-    ///<summary>An interface used to provide default agent and blackboard references to tasks and let tasks 'interface' with the root system</summary>
-    public interface ITaskSystem
-    {
-        Component agent { get; }
-        IBlackboard blackboard { get; }
-        Object contextObject { get; }
-        float elapsedTime { get; }
-        float deltaTime { get; }
-        void UpdateTasksOwner();
-        void SendEvent(string name, object value, object sender);
-        void SendEvent<T>(string name, T value, object sender);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1c01a5a1765af493c8ccb4023d5e438f0bec5d03a1614f76a96e01272c6cffee
+size 810

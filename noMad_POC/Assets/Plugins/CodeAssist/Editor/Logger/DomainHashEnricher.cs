@@ -1,28 +1,3 @@
-using System;
-using System.Linq;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Configuration;
-
-
-namespace Meryel.UnityCodeAssist.Editor.Logger
-{
-    public class DomainHashEnricher : ILogEventEnricher
-    {
-        static int domainHash;
-
-        static DomainHashEnricher()
-        {
-            var guid = UnityEditor.GUID.Generate();
-            domainHash = guid.GetHashCode();
-        }
-
-        public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
-        {
-            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(
-                    "DomainHash", domainHash));
-        }
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:153b1a1ecb7a9956288bca4ead80d60e2f3664d2874ad8d32973a170b5232f1a
+size 854

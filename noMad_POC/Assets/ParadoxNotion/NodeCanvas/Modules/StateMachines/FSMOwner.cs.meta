@@ -1,17 +1,3 @@
-fileFormatVersion: 2
-guid: 4a7dbb6bbdf4ffb46ab7dd87ba8191e7
-labels:
-- AI
-- visualscripting
-- FSM
-- state
-- flow
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {fileID: 2800000, guid: b5eeec78a0081094cb8dfeb83808d762, type: 3}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:1ffc39b2f6dcf94e7e5e0296473db3447bceeaa29e2f2bf4d3206f30d9d60356
+size 544

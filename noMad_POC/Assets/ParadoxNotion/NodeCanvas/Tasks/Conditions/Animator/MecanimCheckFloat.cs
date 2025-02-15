@@ -1,32 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Conditions
-{
-
-    [Name("Check Parameter Float")]
-    [Category("Animator")]
-    public class MecanimCheckFloat : ConditionTask<Animator>
-    {
-
-        [RequiredField]
-        public BBParameter<string> parameter;
-        public CompareMethod comparison = CompareMethod.EqualTo;
-        public BBParameter<float> value;
-
-        protected override string info {
-            get
-            {
-                return "Mec.Float " + parameter.ToString() + OperationTools.GetCompareString(comparison) + value;
-            }
-        }
-
-        protected override bool OnCheck() {
-
-            return OperationTools.Compare((float)agent.GetFloat(parameter.value), (float)value.value, comparison, 0.1f);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5c84256f58c06ad5502a208125634393ba9cc5f7d9f55cd2bf1826c864b84e37
+size 1073

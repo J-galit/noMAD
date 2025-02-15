@@ -1,27 +1,3 @@
-﻿using System.Collections.Generic;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-
-namespace NodeCanvas.Tasks.Conditions
-{
-
-    [Category("✫ Blackboard/Lists")]
-    [Description("Check if an element is contained in the target list")]
-    public class ListContainsElement<T> : ConditionTask
-    {
-
-        [RequiredField]
-        [BlackboardOnly]
-        public BBParameter<List<T>> targetList;
-        public BBParameter<T> checkElement;
-
-        protected override string info {
-            get { return targetList + " contains " + checkElement; }
-        }
-
-        protected override bool OnCheck() {
-            return targetList.value.Contains(checkElement.value);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9427f07c0bb8ad7334f338620105cb2718a1e7af39aa7c0c6f7af2746245ebd2
+size 926

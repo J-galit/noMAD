@@ -1,34 +1,3 @@
-﻿using System.Collections.Generic;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard/Lists")]
-    public class PickListElement<T> : ActionTask
-    {
-        [RequiredField]
-        [BlackboardOnly]
-        public BBParameter<List<T>> targetList;
-        public BBParameter<int> index;
-        [BlackboardOnly]
-        public BBParameter<T> saveAs;
-
-        protected override string info {
-            get { return string.Format("{0} = {1} [{2}]", saveAs, targetList, index); }
-        }
-
-        protected override void OnExecute() {
-
-            if ( index.value < 0 || index.value >= targetList.value.Count ) {
-                EndAction(false);
-                return;
-            }
-
-            saveAs.value = targetList.value[index.value];
-            EndAction(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:980f83a573f9b89678d743f7d38fcf05ded9693e2bd610eff11b52c45b41632b
+size 1101

@@ -1,12 +1,3 @@
-fileFormatVersion: 2
-guid: e463f393e62a0d34093f273ea33c5b23
-labels:
-- AI
-- visualscripting
-- dialogue
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:32199f37835a957ac61f767078ae3c1138c3a67533b4b7f36310f4b18736dc41
+size 418

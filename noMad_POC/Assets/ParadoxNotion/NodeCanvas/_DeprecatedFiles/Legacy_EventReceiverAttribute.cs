@@ -1,13 +1,3 @@
-﻿namespace NodeCanvas.Framework
-{
-
-    [System.AttributeUsage(System.AttributeTargets.Class)]
-    [System.Obsolete("[EventReceiver] is no longer used. Please use the '.router' property to subscribe/unsubscribe to events (in OnExecute/OnStop for actions and OnEnable/OnDisable for conditions). For custom events, use '.router.onCustomEvent'.")]
-    public class EventReceiverAttribute : System.Attribute
-    {
-        readonly public string[] eventMessages;
-        public EventReceiverAttribute(params string[] args) {
-            this.eventMessages = args;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c16133ce50696388c1ae9e1aa3812a214988c25a914452ea7a2af826b5de1bdc
+size 776

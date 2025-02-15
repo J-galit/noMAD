@@ -1,26 +1,3 @@
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("GameObject")]
-    public class GetComponent<T> : ActionTask<Transform> where T : Component
-    {
-
-        [BlackboardOnly]
-        public BBParameter<T> saveAs;
-
-        protected override string info {
-            get { return string.Format("Get {0} as {1}", typeof(T).Name, saveAs.ToString()); }
-        }
-
-        protected override void OnExecute() {
-            var o = agent.GetComponent<T>();
-            saveAs.value = o;
-            EndAction(o != null);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0abcab0ec1d55f8017cb2ac8eadc9fec0d05654f06d13a4189544a25f030f61c
+size 835

@@ -1,33 +1,3 @@
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("GameObject")]
-    public class LookAt : ActionTask<Transform>
-    {
-
-        [RequiredField]
-        public BBParameter<GameObject> lookTarget;
-        public bool repeat = false;
-
-        protected override string info {
-            get { return "LookAt " + lookTarget; }
-        }
-
-        protected override void OnExecute() { DoLook(); }
-        protected override void OnUpdate() { DoLook(); }
-
-        void DoLook() {
-            var lookPos = lookTarget.value.transform.position;
-            lookPos.y = agent.position.y;
-            agent.LookAt(lookPos);
-
-            if ( !repeat )
-                EndAction(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6f744b231cdf69b41a41f0d6f0a8d59c45983cfc349edf9c343ab44d29be9a0a
+size 1003

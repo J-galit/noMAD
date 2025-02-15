@@ -1,17 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Conditions
-{
-
-    [Category("GameObject")]
-    public class IsActive : ConditionTask<Transform>
-    {
-        protected override string info => agentInfo + " is Active";
-        protected override bool OnCheck() {
-            return agent.gameObject.activeInHierarchy;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:49d8eb7b61dad9f55f35e2d2b5f773922ec7f54ebe153e09e90be05632e04705
+size 608

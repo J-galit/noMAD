@@ -1,36 +1,3 @@
-﻿using ParadoxNotion;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.BehaviourTrees
-{
-
-    ///<summary> Base class for BehaviourTree Composite nodes.</summary>
-    abstract public class BTComposite : BTNode
-    {
-
-        public override string name { get { return base.name.ToUpper(); } }
-
-        sealed public override int maxOutConnections { get { return -1; } }
-        sealed public override Alignment2x2 commentsAlignment { get { return Alignment2x2.Right; } }
-
-        ///----------------------------------------------------------------------------------------------
-        ///---------------------------------------UNITY EDITOR-------------------------------------------
-#if UNITY_EDITOR
-
-        protected override UnityEditor.GenericMenu OnContextMenu(UnityEditor.GenericMenu menu) {
-            menu = base.OnContextMenu(menu);
-            menu = EditorUtils.GetTypeSelectionMenu(typeof(BTComposite), (t) => { this.ReplaceWith(t); }, menu, "Replace");
-            menu.AddItem(new GUIContent("Convert to SubTree"), false, () => { this.ConvertToSubTree(); });
-            if ( outConnections.Count > 0 ) {
-                menu.AddItem(new GUIContent("Duplicate Branch"), false, () => { this.DuplicateBranch(graph); });
-                menu.AddItem(new GUIContent("Delete Branch"), false, () => { this.DeleteBranch(); });
-            }
-            return menu;
-        }
-
-#endif
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f093081d0e95c7ecd189a7e43968f5c694530db057192e14a1d359667ce7e4e5
+size 1658

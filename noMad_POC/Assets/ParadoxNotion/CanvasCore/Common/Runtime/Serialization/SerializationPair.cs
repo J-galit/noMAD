@@ -1,13 +1,3 @@
-﻿using System.Collections.Generic;
-
-namespace ParadoxNotion.Serialization
-{
-    [System.Serializable]
-    ///<summary>A pair of JSON and UnityObject references</summary>
-    sealed public class SerializationPair
-    {
-        public string _json;
-        public List<UnityEngine.Object> _references;
-        public SerializationPair() { _references = new List<UnityEngine.Object>(); }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9826bb8f33c097da6996758a819ba3f859b9b04a833b49717054d599caa417c4
+size 593

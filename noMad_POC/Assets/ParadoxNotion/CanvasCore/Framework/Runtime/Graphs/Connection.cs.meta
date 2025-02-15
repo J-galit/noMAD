@@ -1,13 +1,3 @@
-fileFormatVersion: 2
-guid: 76b3ba7e034f5e347926c55eb15ea518
-labels:
-- Graph
-- Node
-- AI
-- visualscripting
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:ffa4094a0910a0ec2d6876cf700fa8959ab1bafbfbd9adb5055aed2595992ee5
+size 422

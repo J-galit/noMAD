@@ -1,34 +1,3 @@
-﻿using System.Collections.Generic;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard/Lists")]
-    public class InsertElementToList<T> : ActionTask
-    {
-        [RequiredField]
-        [BlackboardOnly]
-        public BBParameter<List<T>> targetList;
-        public BBParameter<T> targetElement;
-        public BBParameter<int> targetIndex;
-
-        protected override string info {
-            get { return string.Format("Insert {0} in {1} at {2}", targetElement, targetList, targetIndex); }
-        }
-
-        protected override void OnExecute() {
-            var index = targetIndex.value;
-            var list = targetList.value;
-            if ( index < 0 || index >= list.Count ) {
-                EndAction(false);
-                return;
-            }
-
-            list.Insert(index, targetElement.value);
-            EndAction(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e2aa667d3d13def7fa73bf034fd9ef70ac24bda2b00e0ededb6099d40fc29f43
+size 1187

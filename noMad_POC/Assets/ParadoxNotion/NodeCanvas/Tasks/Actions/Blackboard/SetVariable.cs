@@ -1,24 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard")]
-    public class SetVariable<T> : ActionTask
-    {
-
-        [BlackboardOnly]
-        public BBParameter<T> valueA;
-        public BBParameter<T> valueB;
-
-        protected override string info {
-            get { return valueA + " = " + valueB; }
-        }
-
-        protected override void OnExecute() {
-            valueA.value = valueB.value;
-            EndAction();
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:590e503b45d925fba13394cca46dbb3c4bd1b859ebab7423d301039b9a06dc4f
+size 740

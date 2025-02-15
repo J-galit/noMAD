@@ -1,16 +1,3 @@
-{
-    "name": "Meryel.CodeAssist.Editor",
-    "rootNamespace": "",
-    "references": [],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": false,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a7bbc11813368677b21a92ef4f6e0321d70b3a30eb7896bba06978051662713d
+size 579

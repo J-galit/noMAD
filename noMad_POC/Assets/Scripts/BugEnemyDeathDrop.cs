@@ -1,20 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BugEnemyDeathDrop : MonoBehaviour
-{
-    [SerializeField] private GameObject currencyDrop;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //if hit by player attack
-        if (other.CompareTag("Attack"))
-        {
-            //drops currency
-            Instantiate(currencyDrop, transform.position, Quaternion.identity);
-            //destroys bug
-            Destroy(gameObject);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6d3266fa6a38a3673ee9de1ee4d432610d0785935b9f08a3b852ac71b5c9b693
+size 727

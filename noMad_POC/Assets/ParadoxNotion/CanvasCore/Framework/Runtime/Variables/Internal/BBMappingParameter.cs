@@ -1,23 +1,3 @@
-﻿using System;
-
-namespace NodeCanvas.Framework.Internal
-{
-    ///<summary>Used to map subgraph variables <-> parent variables (or direct value)</summary>
-    [Serializable]
-    public class BBMappingParameter : BBObjectParameter
-    {
-        [UnityEngine.SerializeField] private string _targetSubGraphVariableID;
-        [UnityEngine.SerializeField] private bool _canRead;
-        [UnityEngine.SerializeField] private bool _canWrite;
-
-        public string targetSubGraphVariableID => _targetSubGraphVariableID;
-        public bool canRead { get { return _canRead; } set { _canRead = value; } }
-        public bool canWrite { get { return _canWrite; } set { _canWrite = value; } }
-
-        public BBMappingParameter() : base() { }
-        public BBMappingParameter(Variable subVariable) {
-            _targetSubGraphVariableID = subVariable.ID;
-            base.SetType(subVariable.varType);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:702f252e79c71d5bdded1e954470d47a4b54d9f9a323ea419739433e1a9f45b5
+size 1133
