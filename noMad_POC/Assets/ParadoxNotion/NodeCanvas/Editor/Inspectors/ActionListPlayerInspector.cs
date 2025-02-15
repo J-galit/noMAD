@@ -1,36 +1,3 @@
-﻿#if UNITY_EDITOR
-
-using UnityEngine;
-using UnityEditor;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-namespace NodeCanvas.Editor
-{
-
-    [CustomEditor(typeof(ActionListPlayer))]
-    public class ActionListPlayerInspector : UnityEditor.Editor
-    {
-
-        private ActionListPlayer list {
-            get { return (ActionListPlayer)target; }
-        }
-
-        public override void OnInspectorGUI() {
-
-            GUI.skin.label.richText = true;
-            GUILayout.Space(10);
-
-            list.playOnAwake = EditorGUILayout.Toggle("Play On Awake", list.playOnAwake);
-            list.blackboard = (Blackboard)EditorGUILayout.ObjectField("Target Blackboard", (Blackboard)list.blackboard, typeof(Blackboard), true);
-            TaskEditor.TaskFieldSingle(list.actionList, null, false);
-            EditorUtils.EndOfInspector();
-
-            if ( Event.current.isMouse || list.actionList.isRunning ) {
-                Repaint();
-            }
-        }
-    }
-}
-
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:34c0fe3d9097069273f095136ff99f5a3a15ad82cbb9e6becad18be2bb57b05c
+size 1217

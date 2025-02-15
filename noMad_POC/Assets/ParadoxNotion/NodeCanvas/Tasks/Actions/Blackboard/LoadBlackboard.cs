@@ -1,24 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard")]
-    [Description("Loads the blackboard variables previously saved in the provided PlayerPrefs key if at all. Returns false if no saves found or load was failed")]
-    public class LoadBlackboard : ActionTask<Blackboard>
-    {
-
-        [RequiredField]
-        public BBParameter<string> saveKey;
-
-        protected override string info {
-            get { return string.Format("Load Blackboard [{0}]", saveKey.ToString()); }
-        }
-
-        protected override void OnExecute() {
-            EndAction(agent.Load(saveKey.value));
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6b21915d20f6a796307f69f8afcd831d6fd63c97f6f6785c0dd12809cb9dc77a
+size 902

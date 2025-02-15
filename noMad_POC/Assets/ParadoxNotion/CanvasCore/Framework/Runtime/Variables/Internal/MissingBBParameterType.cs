@@ -1,24 +1,3 @@
-﻿using ParadoxNotion.Serialization;
-
-namespace NodeCanvas.Framework.Internal
-{
-
-    public class MissingBBParameterType : BBParameter<object>, IMissingRecoverable
-    {
-
-        [UnityEngine.SerializeField]
-        private string _missingType;
-        [UnityEngine.SerializeField]
-        private string _recoveryState;
-
-        string IMissingRecoverable.missingType {
-            get { return _missingType; }
-            set { _missingType = value; }
-        }
-
-        string IMissingRecoverable.recoveryState {
-            get { return _recoveryState; }
-            set { _recoveryState = value; }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0507bad54b35914d3797e93ee58c9cdc98197bdc1ba39d26586095dbe4730164
+size 843

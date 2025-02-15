@@ -1,33 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-using NavMesh = UnityEngine.AI.NavMesh;
-using NavMeshHit = UnityEngine.AI.NavMeshHit;
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Name("Find Closest NavMesh Edge")]
-    [Category("Movement/Pathfinding")]
-    [Description("Find the closes Navigation Mesh position to the target position")]
-    public class FindClosestEdge : ActionTask
-    {
-
-        public BBParameter<Vector3> targetPosition;
-        [BlackboardOnly]
-        public BBParameter<Vector3> saveFoundPosition;
-
-        private NavMeshHit hit;
-
-        protected override void OnExecute() {
-            if ( NavMesh.FindClosestEdge(targetPosition.value, out hit, -1) ) {
-                saveFoundPosition.value = hit.position;
-                EndAction(true);
-                return;
-            }
-
-            EndAction(false);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4bf38600033a24f7e04b2b7e280b6b728d15ff735ae513bff79de343125343f7
+size 1119

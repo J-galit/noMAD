@@ -1,32 +1,3 @@
-﻿using System.Collections;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard/Lists")]
-    public class ShuffleList : ActionTask
-    {
-
-        [RequiredField]
-        [BlackboardOnly]
-        public BBParameter<IList> targetList;
-
-        protected override void OnExecute() {
-
-            var list = targetList.value;
-
-            for ( var i = list.Count - 1; i > 0; i-- ) {
-                var j = (int)Mathf.Floor(Random.value * ( i + 1 ));
-                var temp = list[i];
-                list[i] = list[j];
-                list[j] = temp;
-            }
-
-            EndAction();
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:414b939491ae90eef4d111f631c04faad118a2d5fcc222e7a9623c55a18cee67
+size 932

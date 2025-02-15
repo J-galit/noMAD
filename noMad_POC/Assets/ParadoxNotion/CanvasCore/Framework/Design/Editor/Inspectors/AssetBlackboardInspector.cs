@@ -1,23 +1,3 @@
-﻿#if UNITY_EDITOR
-
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEditor;
-
-namespace NodeCanvas.Editor
-{
-    [CustomEditor(typeof(AssetBlackboard))]
-    public class AssetBlackboardInspector : UnityEditor.Editor
-    {
-
-        private AssetBlackboard bb { get { return (AssetBlackboard)target; } }
-
-        public override void OnInspectorGUI() {
-            BlackboardEditor.ShowVariables(bb);
-            EditorUtils.EndOfInspector();
-            Repaint();
-        }
-    }
-}
-
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:7e6f904cd6cbe2f31fdaeea717676142c7b429a5df0e4a0d555c7299579eb733
+size 728

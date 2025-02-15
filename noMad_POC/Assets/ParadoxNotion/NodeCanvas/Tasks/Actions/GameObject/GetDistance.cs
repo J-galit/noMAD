@@ -1,28 +1,3 @@
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("GameObject")]
-    public class GetDistance : ActionTask<Transform>
-    {
-
-        [RequiredField]
-        public BBParameter<GameObject> target;
-        [BlackboardOnly]
-        public BBParameter<float> saveAs;
-
-        protected override string info {
-            get { return string.Format("Get Distance to {0}", target.ToString()); }
-        }
-
-        protected override void OnExecute() {
-
-            saveAs.value = Vector3.Distance(agent.position, target.value.transform.position);
-            EndAction();
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5f9b5a8df6ba112074e5da3a4b284d5b94535f1032f14a5778888efcd048afdd
+size 888

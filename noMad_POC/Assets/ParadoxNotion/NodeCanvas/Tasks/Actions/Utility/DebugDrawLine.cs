@@ -1,23 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Utility")]
-    public class DebugDrawLine : ActionTask
-    {
-
-        public BBParameter<Vector3> from;
-        public BBParameter<Vector3> to;
-        public Color color = Color.white;
-        public float timeToShow = 0.1f;
-
-        protected override void OnExecute() {
-            Debug.DrawLine(from.value, to.value, color, timeToShow);
-            EndAction(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0f074316c3b5ad0a46eb945220926bc544e944b294f51cfb4baf306bd64f4181
+size 746

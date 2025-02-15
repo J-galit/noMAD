@@ -1,27 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard")]
-    public class SampleCurve : ActionTask
-    {
-
-        [RequiredField]
-        public BBParameter<AnimationCurve> curve;
-        [SliderField(0, 1)]
-        public BBParameter<float> sampleAt;
-
-        [BlackboardOnly]
-        public BBParameter<float> saveAs;
-
-        protected override void OnExecute() {
-
-            saveAs.value = curve.value.Evaluate(sampleAt.value);
-            EndAction();
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:2f130c3a520c7b375de95c425d2bebc2fc896304099fe016ad21e4d6d8545227
+size 794

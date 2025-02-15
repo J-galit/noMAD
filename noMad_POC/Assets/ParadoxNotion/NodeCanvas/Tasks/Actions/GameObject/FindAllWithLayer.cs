@@ -1,30 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("GameObject")]
-    [Description("Action will end in Failure if no objects are found")]
-    public class FindAllWithLayer : ActionTask
-    {
-
-        [RequiredField]
-        public BBParameter<LayerMask> targetLayers;
-        [BlackboardOnly]
-        public BBParameter<List<GameObject>> saveAs;
-
-        protected override string info {
-            get { return "GetObjects in '" + targetLayers + "' as " + saveAs; }
-        }
-
-        protected override void OnExecute() {
-            saveAs.value = ParadoxNotion.ObjectUtils.FindGameObjectsWithinLayerMask(targetLayers.value).ToList();
-            EndAction(saveAs.value.Count != 0);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:2c2520c72fabda35bb2aa75aa48123bdc3ecb905f2fa00b9ad4a5e19c8d004a3
+size 1063

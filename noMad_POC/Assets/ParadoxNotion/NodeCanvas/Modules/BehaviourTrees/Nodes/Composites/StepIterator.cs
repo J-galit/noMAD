@@ -1,32 +1,3 @@
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.BehaviourTrees
-{
-
-    [Name("Step Sequencer")]
-    [Category("Composites")]
-    [Description("In comparison to a normal Sequencer which executes all its children until one fails, Step Sequencer executes its children one-by-one per Step Sequencer execution. The executed child status is returned regardless of Success or Failure.")]
-    [ParadoxNotion.Design.Icon("StepIterator")]
-    [Color("bf7fff")]
-    public class StepIterator : BTComposite
-    {
-
-        private int current;
-
-        public override void OnGraphStarted() {
-            current = 0;
-        }
-
-        protected override Status OnExecute(Component agent, IBlackboard blackboard) {
-            current = current % outConnections.Count;
-            return outConnections[current].Execute(agent, blackboard);
-        }
-
-        protected override void OnReset() {
-            current++;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0e79f9a43b38218e825b0469b97b1fef3de70b290f0c18c26224aeb310341d5c
+size 1203

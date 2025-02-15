@@ -1,27 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Conditions
-{
-
-    [Name("Check Parameter Bool")]
-    [Category("Animator")]
-    public class MecanimCheckBool : ConditionTask<Animator>
-    {
-
-        [RequiredField]
-        public BBParameter<string> parameter;
-        public BBParameter<bool> value;
-
-        protected override string info {
-            get { return "Mec.Bool " + parameter.ToString() + " == " + value; }
-        }
-
-        protected override bool OnCheck() {
-
-            return agent.GetBool(parameter.value) == value.value;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:dd46df0cf1512e925f5bb72f560c75b3bdc58f35e0966d2fb22f75eb75e7af89
+size 846

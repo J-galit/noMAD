@@ -1,26 +1,3 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard")]
-    [Description("Set a blackboard boolean variable at random between min and max value")]
-    public class SetBooleanRandom : ActionTask
-    {
-
-        [BlackboardOnly]
-        public BBParameter<bool> boolVariable;
-
-        protected override string info {
-            get { return "Set " + boolVariable + " Random"; }
-        }
-
-        protected override void OnExecute() {
-            boolVariable.value = Random.Range(0, 2) == 0 ? false : true;
-            EndAction();
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ed636c5150835f18f24f8f6c3b88e10e90399380ac8f2ce7beaffedac2f4e5c4
+size 868

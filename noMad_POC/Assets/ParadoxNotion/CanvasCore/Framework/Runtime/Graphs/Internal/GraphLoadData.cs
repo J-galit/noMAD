@@ -1,15 +1,3 @@
-﻿using System.Collections.Generic;
-
-namespace NodeCanvas.Framework.Internal
-{
-    ///<summary>Contains data that a graph can load/deserialize from AND initialize. Can be passed to Graph.LoadOverwrite or Graph.LoadOverwriteAsync</summary>
-    public struct GraphLoadData
-    {
-        public GraphSource source;
-        public string json;
-        public List<UnityEngine.Object> references;
-        public UnityEngine.Component agent;
-        public IBlackboard parentBlackboard;
-        public bool preInitializeSubGraphs;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:052e38628d4c6d9fa1ee2a3afd5dea397c2162b82289364915cdd1da27a5cf20
+size 732

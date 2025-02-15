@@ -1,24 +1,3 @@
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("Input (Legacy System)")]
-    public class GetMousePosition : ActionTask
-    {
-
-        [BlackboardOnly] public BBParameter<Vector3> saveAs;
-        public bool repeat;
-
-        protected override void OnExecute() { Do(); }
-        protected override void OnUpdate() { Do(); }
-
-        void Do() {
-            saveAs.value = Input.mousePosition;
-            if ( !repeat ) { EndAction(); }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c26a7710e5ad3887c120c303e6e7b09f8016b0025cb1404ca67724496f07b622
+size 758

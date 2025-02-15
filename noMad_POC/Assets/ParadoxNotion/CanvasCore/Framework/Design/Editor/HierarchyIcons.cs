@@ -1,32 +1,3 @@
-﻿#if UNITY_EDITOR
-
-using UnityEditor;
-using UnityEngine;
-using NodeCanvas.Framework;
-
-namespace NodeCanvas.Editor
-{
-
-    [UnityEditor.InitializeOnLoad]
-    static class HierarchyIcons
-    {
-        static HierarchyIcons() {
-            EditorApplication.hierarchyWindowItemOnGUI -= ShowIcon;
-            EditorApplication.hierarchyWindowItemOnGUI += ShowIcon;
-        }
-
-        static void ShowIcon(int ID, Rect r) {
-            if ( !Prefs.showHierarchyIcons ) {
-                return;
-            }
-            var go = EditorUtility.InstanceIDToObject(ID) as GameObject;
-            if ( go == null ) return;
-            var owner = go.GetComponent<GraphOwner>();
-            if ( owner == null ) return;
-            r.xMin = r.xMax - 16;
-            GUI.DrawTexture(r, StyleSheet.canvasIcon);
-        }
-    }
-}
-
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:2c691ef4996a32aebcfdb8a8d33038871e94e2969f9e7113819c1d33d5114d71
+size 1056

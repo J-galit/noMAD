@@ -1,26 +1,3 @@
-﻿using System.Collections;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-
-
-namespace NodeCanvas.Tasks.Actions
-{
-
-    [Category("✫ Blackboard/Lists")]
-    public class ClearList : ActionTask
-    {
-
-        [RequiredField]
-        [BlackboardOnly]
-        public BBParameter<IList> targetList;
-
-        protected override string info {
-            get { return string.Format("Clear List {0}", targetList); }
-        }
-
-        protected override void OnExecute() {
-            targetList.value.Clear();
-            EndAction(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:67d0c1171c8008772d6a5e8d605601cec43b2dc239821ce2c6f6b4f2c4e8ec27
+size 785
