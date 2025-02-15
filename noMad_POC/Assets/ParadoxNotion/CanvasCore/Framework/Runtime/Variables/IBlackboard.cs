@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9fd77c0ff46cb6d493f97b17284885ade3d48b2e3740e9224810ca0781f0b407
-size 1090
+﻿using System.Collections.Generic;
+
+namespace NodeCanvas.Framework
+{
+
+    ///<summary> An interface for Blackboards</summary>
+    public interface IBlackboard
+    {
+        event System.Action<Variable> onVariableAdded;
+        event System.Action<Variable> onVariableRemoved;
+
+        string identifier { get; }
+        IBlackboard parent { get; }
+        Dictionary<string, Variable> variables { get; set; }
+        UnityEngine.Component propertiesBindTarget { get; }
+        UnityEngine.Object unityContextObject { get; }
+        string independantVariablesFieldName { get; }
+
+        void TryInvokeOnVariableAdded(Variable variable);
+        void TryInvokeOnVariableRemoved(Variable variable);
+    }
+
+    ///<summary> An interface for Global Blackboards</summary>
+    public interface IGlobalBlackboard : IBlackboard
+    {
+        string UID { get; }
+    }
+}

@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:186f5268b217833bb91b1212d26a199501f041be7a90de02a8b40d43769e725f
-size 1577
+﻿using UnityEngine;
+using ParadoxNotion.Design;
+using NodeCanvas.Framework;
+using NodeCanvas.DialogueTrees;
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("Dialogue")]
+    [Description("Starts the Dialogue Tree assigned on a Dialogue Tree Controller object with specified agent used for 'Instigator'.")]
+    [ParadoxNotion.Design.Icon("Dialogue")]
+    public class StartDialogueTree : ActionTask<IDialogueActor>
+    {
+
+        [RequiredField]
+        public BBParameter<DialogueTreeController> dialogueTreeController;
+        public bool waitActionFinish = true;
+
+        public bool isPrefab;
+
+        private DialogueTreeController instance;
+
+        protected override string info {
+            get { return string.Format("Start Dialogue {0}", dialogueTreeController); }
+        }
+
+        protected override void OnExecute() {
+
+            instance = isPrefab ? GameObject.Instantiate(dialogueTreeController.value) : dialogueTreeController.value;
+
+            if ( waitActionFinish ) {
+                instance.StartDialogue(agent, (success) => { if ( isPrefab ) { Object.Destroy(instance.gameObject); } EndAction(success); });
+            } else {
+                instance.StartDialogue(agent, (success) => { if ( isPrefab ) Object.Destroy(instance.gameObject); });
+                EndAction();
+            }
+        }
+    }
+}

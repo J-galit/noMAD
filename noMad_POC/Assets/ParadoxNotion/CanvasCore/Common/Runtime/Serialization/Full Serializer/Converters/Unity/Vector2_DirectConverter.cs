@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:100f84f3d1c00e1635036018aa88bb7853dc2e9a77a21919a084dd36926da671
-size 1228
+#if !NO_UNITY
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace ParadoxNotion.Serialization.FullSerializer.Internal.DirectConverters
+{
+    public class Vector2_DirectConverter : fsDirectConverter<Vector2>
+    {
+        protected override fsResult DoSerialize(Vector2 model, Dictionary<string, fsData> serialized) {
+            SerializeMember(serialized, null, "x", model.x);
+            SerializeMember(serialized, null, "y", model.y);
+            return fsResult.Success;
+        }
+
+        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref Vector2 model) {
+            var t0 = model.x;
+            DeserializeMember(data, null, "x", out t0);
+            model.x = t0;
+
+            var t1 = model.y;
+            DeserializeMember(data, null, "y", out t1);
+            model.y = t1;
+
+            return fsResult.Success;
+        }
+
+        public override object CreateInstance(fsData data, Type storageType) {
+            return new Vector2();
+        }
+    }
+}
+#endif

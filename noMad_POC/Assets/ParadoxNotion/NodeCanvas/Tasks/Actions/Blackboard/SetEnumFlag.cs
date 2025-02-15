@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:35766ffcc9cecf28f53ebd70440d03349355c56b92b6bd1e94b144c940f880c3
-size 1285
+﻿using System;
+using NodeCanvas.Framework;
+using NodeCanvas.Framework.Internal;
+using ParadoxNotion.Design;
+
+[Category("✫ Blackboard")]
+public class SetEnumFlag : ActionTask
+{
+    [BlackboardOnly]
+    [RequiredField]
+    public readonly BBObjectParameter Variable = new BBObjectParameter(typeof(Enum));
+
+    public readonly BBObjectParameter Flag = new BBObjectParameter(typeof(Enum));
+    public readonly BBParameter<bool> Clear = new BBParameter<bool>();
+
+    protected override string info => $"{(Clear.value ? "Clear" : "Set")} {Variable} for {Flag} flag";
+
+    protected override void OnExecute()
+    {
+        var Value = (int)Variable.value;
+
+        if (Clear.value) Value &= ~(int)Flag.value;
+        else Value |= (int)Flag.value;
+
+        Variable.value = Enum.ToObject(Variable.varRef.varType, Value);
+
+        EndAction();
+    }
+
+#if UNITY_EDITOR
+
+    protected override void OnTaskInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        if (Flag.varType != Variable.refType) Flag.SetType(Variable.refType);
+    }
+
+#endif
+}

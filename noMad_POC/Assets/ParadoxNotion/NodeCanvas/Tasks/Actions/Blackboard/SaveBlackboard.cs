@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41436f360a09c62e8811e3876d5ef3024bb0a42e23540f7605be10ebb8522315
-size 852
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Saves the blackboard variables in the provided key and to be loaded later on")]
+    public class SaveBlackboard : ActionTask<Blackboard>
+    {
+
+        [RequiredField]
+        public BBParameter<string> saveKey;
+
+        protected override string info {
+            get { return string.Format("Save Blackboard [{0}]", saveKey.ToString()); }
+        }
+
+        protected override void OnExecute() {
+            agent.Save(saveKey.value);
+            EndAction();
+        }
+    }
+}

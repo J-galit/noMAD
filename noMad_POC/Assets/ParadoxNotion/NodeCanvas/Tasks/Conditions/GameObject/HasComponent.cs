@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:653e40e53fd19d8a9de353d421df846fb325eb925bd132270cf07a44efefa104
-size 565
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("GameObject")]
+    public class HasComponent<T> : ConditionTask<Transform> where T : Component
+    {
+
+        protected override bool OnCheck() {
+            return agent.GetComponent<T>() != null;
+        }
+    }
+}

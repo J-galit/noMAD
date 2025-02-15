@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf9f336d6dbffef23d384877aad3eb2e4858e8669911ef39c403bbfc96008385
-size 1234
+using System.Collections.Generic;
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    [Description("Note that this is slow.\nAction will end in Failure if no objects are found")]
+    public class FindAllWithName : ActionTask
+    {
+
+        [RequiredField]
+        public BBParameter<string> searchName = "GameObject";
+        [BlackboardOnly]
+        public BBParameter<List<GameObject>> saveAs;
+
+        protected override string info {
+            get { return "GetObjects '" + searchName + "' as " + saveAs; }
+        }
+
+        protected override void OnExecute() {
+
+            var gos = new List<GameObject>();
+            foreach ( var go in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None) ) {
+                if ( go.name == searchName.value )
+                    gos.Add(go);
+            }
+
+            saveAs.value = gos;
+            EndAction(gos.Count != 0);
+        }
+    }
+}

@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f961a3f6e1381d9d28dc1f3548654d3cc8223d8e90842d794918a8572d0569e1
-size 901
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("Input (Legacy System)")]
+    public class GetMouseScrollDelta : ActionTask
+    {
+
+        [BlackboardOnly] public BBParameter<float> saveAs;
+        public bool repeat = false;
+
+        protected override string info {
+            get { return "Get Scroll Delta as " + saveAs; }
+        }
+
+        protected override void OnExecute() { Do(); }
+        protected override void OnUpdate() { Do(); }
+
+        void Do() {
+            saveAs.value = Input.GetAxis("Mouse ScrollWheel");
+            if ( !repeat ) { EndAction(); }
+        }
+    }
+}

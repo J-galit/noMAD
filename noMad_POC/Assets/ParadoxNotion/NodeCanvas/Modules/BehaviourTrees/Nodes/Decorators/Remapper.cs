@@ -1,3 +1,58 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9ca43fb19f95303c4dc8981c0195b0314e18c1a6e54e6fa6d1507c1e62de1c84
-size 1961
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.BehaviourTrees
+{
+
+    [Name("Remap")]
+    [Category("Decorators")]
+    [Description("Remaps the child status to another status. Used to either invert the child's return status or to always return a specific status.")]
+    [ParadoxNotion.Design.Icon("Remap")]
+    public class Remapper : BTDecorator
+    {
+
+        public enum RemapStatus
+        {
+            Failure = 0,
+            Success = 1,
+        }
+
+        public RemapStatus successRemap = RemapStatus.Success;
+        public RemapStatus failureRemap = RemapStatus.Failure;
+
+        protected override Status OnExecute(Component agent, IBlackboard blackboard) {
+
+            if ( decoratedConnection == null ) {
+                return Status.Optional;
+            }
+
+            status = decoratedConnection.Execute(agent, blackboard);
+
+            switch ( status ) {
+                case Status.Success:
+                    return (Status)successRemap;
+                case Status.Failure:
+                    return (Status)failureRemap;
+            }
+
+            return status;
+        }
+
+        ///----------------------------------------------------------------------------------------------
+        ///---------------------------------------UNITY EDITOR-------------------------------------------
+#if UNITY_EDITOR
+
+        protected override void OnNodeGUI() {
+
+            if ( (int)successRemap != (int)Status.Success )
+                GUILayout.Label("Success → " + successRemap);
+
+            if ( (int)failureRemap != (int)Status.Failure )
+                GUILayout.Label("Failure → " + failureRemap);
+        }
+
+#endif
+    }
+}

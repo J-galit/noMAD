@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:af365260d52cf1ac2bdda0d175d814869fe07a44ead394db6c4a4a2821e28729
-size 1393
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Set a blackboard boolean variable")]
+    public class SetBoolean : ActionTask
+    {
+
+        public enum BoolSetModes
+        {
+            False = 0,
+            True = 1,
+            Toggle = 2
+        }
+
+        [RequiredField]
+        [BlackboardOnly]
+        public BBParameter<bool> boolVariable;
+        public BoolSetModes setTo = BoolSetModes.True;
+
+        protected override string info {
+            get
+            {
+                if ( setTo == BoolSetModes.Toggle )
+                    return "Toggle " + boolVariable.ToString();
+
+                return "Set " + boolVariable.ToString() + " to " + setTo.ToString();
+            }
+        }
+
+        protected override void OnExecute() {
+
+            if ( setTo == BoolSetModes.Toggle ) {
+
+                boolVariable.value = !boolVariable.value;
+
+            } else {
+
+                var checkBool = ( (int)setTo == 1 );
+                boolVariable.value = checkBool;
+            }
+
+            EndAction();
+        }
+    }
+}

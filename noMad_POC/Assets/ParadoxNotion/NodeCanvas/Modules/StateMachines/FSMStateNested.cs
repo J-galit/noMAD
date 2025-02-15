@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e8a2df02c6a765a6798dc5e5ec38d9ebd46a31c5f64c501ce15bcbfe38e62fde
-size 1200
+using System.Collections.Generic;
+using NodeCanvas.Framework;
+using NodeCanvas.Framework.Internal;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.StateMachines
+{
+    [Category("SubGraphs")]
+    [Color("ffe4e1")]
+    abstract public class FSMStateNested<T> : FSMState, IGraphAssignable<T> where T : Graph
+    {
+        [SerializeField] private List<BBMappingParameter> _variablesMap;
+
+        abstract public T subGraph { get; set; }
+        abstract public BBParameter subGraphParameter { get; }
+
+        public T currentInstance { get; set; }
+        public Dictionary<Graph, Graph> instances { get; set; }
+        public List<BBMappingParameter> variablesMap { get { return _variablesMap; } set { _variablesMap = value; } }
+
+        Graph IGraphAssignable.subGraph { get { return subGraph; } set { subGraph = (T)value; } }
+        Graph IGraphAssignable.currentInstance { get { return currentInstance; } set { currentInstance = (T)value; } }
+    }
+}

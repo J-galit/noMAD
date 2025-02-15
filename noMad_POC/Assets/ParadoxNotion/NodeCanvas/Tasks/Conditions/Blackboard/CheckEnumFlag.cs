@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f66c1896eab16f586e30aab26a6b6e63323ec0e51643c22f5e888da4d4188878
-size 984
+﻿using System;
+using NodeCanvas.Framework;
+using NodeCanvas.Framework.Internal;
+using ParadoxNotion.Design;
+
+[Category("✫ Blackboard")]
+public class CheckEnumFlag : ConditionTask
+{
+    [BlackboardOnly]
+    [RequiredField]
+    public readonly BBObjectParameter Variable = new BBObjectParameter(typeof(Enum));
+
+    public readonly BBObjectParameter Flag = new BBObjectParameter(typeof(Enum));
+
+    protected override string info => $"{Variable} has {Flag} flag";
+
+    protected override bool OnCheck() => ((Enum)Variable.value).HasFlag((Enum)Flag.value);
+
+#if UNITY_EDITOR
+
+    protected override void OnTaskInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        if (Flag.varType != Variable.refType) Flag.SetType(Variable.refType);
+    }
+
+#endif
+}

@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9c16db46dc2257a5159b85827f5bbbaabcd66295d70676161d6cb3efcb4853a
-size 386
+This sample of beautiful emojis are provided by EmojiOne https://www.emojione.com/
+
+Please visit their website to view the complete set of their emojis and review their licensing terms.

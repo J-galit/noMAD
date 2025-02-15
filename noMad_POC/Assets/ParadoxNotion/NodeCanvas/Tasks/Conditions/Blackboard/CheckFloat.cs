@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf43549c5353b8acabe3855da62bf9e2262b87adbd813657fcc6d187c5ff2d3a
-size 1009
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    public class CheckFloat : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<float> valueA;
+        public CompareMethod checkType = CompareMethod.EqualTo;
+        public BBParameter<float> valueB;
+
+        [SliderField(0, 0.1f)]
+        public float differenceThreshold = 0.05f;
+
+        protected override string info {
+            get { return valueA + OperationTools.GetCompareString(checkType) + valueB; }
+        }
+
+        protected override bool OnCheck() {
+            return OperationTools.Compare((float)valueA.value, (float)valueB.value, checkType, differenceThreshold);
+        }
+    }
+}

@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fa762e0b594350fd6c731ad7722c685660c82b479e5f4d60d7f4b5af3bca1f29
-size 1148
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("Input (Legacy System)")]
+    public class CheckButtonInput : ConditionTask
+    {
+
+        public PressTypes pressType = PressTypes.Down;
+        [RequiredField] public BBParameter<string> buttonName = "Fire1";
+
+        protected override string info {
+            get { return pressType.ToString() + " " + buttonName.ToString(); }
+        }
+
+        protected override bool OnCheck() {
+
+            if ( pressType == PressTypes.Down )
+                return Input.GetButtonDown(buttonName.value);
+
+            if ( pressType == PressTypes.Up )
+                return Input.GetButtonUp(buttonName.value);
+
+            if ( pressType == PressTypes.Pressed )
+                return Input.GetButton(buttonName.value);
+
+            return false;
+        }
+    }
+}

@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:21b8400d3e65d770c906f9f7b27a195d14faaa29bc6d42e78f7e0f21874b6f25
-size 1092
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Create up to 3 floats from a Vector and save them to blackboard")]
+    public class DecomposeVector : ActionTask
+    {
+
+        public BBParameter<Vector3> targetVector;
+        [BlackboardOnly]
+        public BBParameter<float> x;
+        [BlackboardOnly]
+        public BBParameter<float> y;
+        [BlackboardOnly]
+        public BBParameter<float> z;
+
+        protected override string info {
+            get { return "Decompose Vector " + targetVector; }
+        }
+
+        protected override void OnExecute() {
+            x.value = targetVector.value.x;
+            y.value = targetVector.value.y;
+            z.value = targetVector.value.z;
+            EndAction();
+        }
+    }
+}

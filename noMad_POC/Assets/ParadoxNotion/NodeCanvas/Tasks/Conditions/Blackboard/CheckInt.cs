@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1cdac7909e41b00412c5543c2efc76f4fe3a2c402f8ed7587a006641dbc775ba
-size 893
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    public class CheckInt : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<int> valueA;
+        public CompareMethod checkType = CompareMethod.EqualTo;
+        public BBParameter<int> valueB;
+
+        protected override string info {
+            get { return valueA + OperationTools.GetCompareString(checkType) + valueB; }
+        }
+
+        protected override bool OnCheck() {
+            return OperationTools.Compare((int)valueA.value, (int)valueB.value, checkType);
+        }
+    }
+}

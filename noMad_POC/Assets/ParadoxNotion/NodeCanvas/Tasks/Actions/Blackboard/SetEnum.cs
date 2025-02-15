@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e98099ee7999d5591031ea3dac0e3882ee17fb45c3a1538dc534714c64269634
-size 1336
+﻿using NodeCanvas.Framework;
+using NodeCanvas.Framework.Internal;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    public class SetEnum : ActionTask
+    {
+
+        [BlackboardOnly]
+        [RequiredField]
+        public BBObjectParameter valueA = new BBObjectParameter(typeof(System.Enum));
+        public BBObjectParameter valueB = new BBObjectParameter(typeof(System.Enum));
+
+        protected override string info {
+            get { return valueA + " = " + valueB; }
+        }
+
+        protected override void OnExecute() {
+            valueA.value = valueB.value;
+            EndAction();
+        }
+
+
+        ///----------------------------------------------------------------------------------------------
+        ///---------------------------------------UNITY EDITOR-------------------------------------------
+#if UNITY_EDITOR
+
+        protected override void OnTaskInspectorGUI() {
+            DrawDefaultInspector();
+            if ( valueB.varType != valueA.refType ) { valueB.SetType(valueA.refType); }
+        }
+
+#endif
+    }
+}

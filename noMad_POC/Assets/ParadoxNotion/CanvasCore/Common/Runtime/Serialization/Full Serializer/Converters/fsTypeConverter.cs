@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6f21ad11cf19afb2b861fcd87980f0ab5c9aa8fdebc92a2a4d207e5e289713de
-size 1554
+﻿using System;
+
+namespace ParadoxNotion.Serialization.FullSerializer.Internal
+{
+    public class fsTypeConverter : fsConverter
+    {
+        public override bool CanProcess(Type type) {
+            return typeof(Type).IsAssignableFrom(type);
+        }
+
+        public override bool RequestCycleSupport(Type type) {
+            return false;
+        }
+
+        public override bool RequestInheritanceSupport(Type type) {
+            return false;
+        }
+
+        public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType) {
+            var type = (Type)instance;
+            serialized = new fsData(type.FullName);
+            return fsResult.Success;
+        }
+
+        public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType) {
+            if ( data.IsString == false ) {
+                return fsResult.Fail("Type converter requires a string");
+            }
+
+            instance = ReflectionTools.GetType(data.AsString, true);
+            if ( instance == null ) {
+                return fsResult.Fail("Unable to find type " + data.AsString);
+            }
+            return fsResult.Success;
+        }
+
+        public override object CreateInstance(fsData data, Type storageType) {
+            return storageType;
+        }
+    }
+}

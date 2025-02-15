@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:23972fb7cdfc371a94adcc7fe612a00ebea8ec7cc97d75aae20582cc881c0aa7
-size 1144
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    public class RemoveComponent<T> : ActionTask<Transform> where T : Component
+    {
+
+        [Tooltip("DestroyImmediately is recomended if you are destroying objects in use of the framework.")]
+        public bool immediately;
+
+        protected override string info {
+            get { return string.Format("Remove '{0}'", typeof(T).Name); }
+        }
+
+        protected override void OnExecute() {
+            var o = agent.GetComponent<T>();
+            if ( o != null ) {
+                if ( immediately ) {
+                    Object.DestroyImmediate(o);
+                } else {
+                    Object.Destroy(o);
+                }
+                EndAction(true);
+                return;
+            }
+
+            EndAction(false);
+        }
+    }
+}

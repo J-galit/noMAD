@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a777ed278a5330ba6c498b8280023d337219f6e989137f0a271376637c8a79a0
-size 1003
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    public class DestroyGameObject : ActionTask<Transform>
+    {
+
+        [Tooltip("DestroyImmediately is recomended if you are destroying objects in use of the framework.")]
+        public bool immediately;
+
+        protected override string info {
+            get { return string.Format("Destroy {0}", agentInfo); }
+        }
+
+        //in case it destroys self
+        protected override void OnUpdate() {
+            if ( immediately ) {
+                Object.DestroyImmediate(agent.gameObject);
+            } else {
+                Object.Destroy(agent.gameObject);
+            }
+            EndAction();
+        }
+    }
+}

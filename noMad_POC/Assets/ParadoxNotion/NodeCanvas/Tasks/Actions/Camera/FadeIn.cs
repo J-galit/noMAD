@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:43b44851ebf815d348bb92191999d28f9e02f955ef655f7f4bb061bf6e91eeea
-size 664
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("Camera")]
+    public class FadeIn : ActionTask
+    {
+
+        public float fadeTime = 1f;
+
+        protected override void OnExecute() {
+            CameraFader.current.FadeIn(fadeTime);
+        }
+
+        protected override void OnUpdate() {
+            if ( elapsedTime >= fadeTime )
+                EndAction();
+        }
+    }
+}

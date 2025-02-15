@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6dc184e975b83003258d76fd799522d5c95118c99d4fbacbf798c7163f4717db
-size 912
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine.UI;
+using UnityEngine;
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("UGUI")]
+    public class ButtonClicked : ConditionTask
+    {
+
+        [RequiredField]
+        public BBParameter<UnityEngine.UI.Button> button;
+
+        protected override string info {
+            get { return string.Format("Button {0} Clicked", button.ToString()); }
+        }
+
+        protected override string OnInit() {
+            button.value.onClick.AddListener(OnClick);
+            return null;
+        }
+
+        protected override bool OnCheck() { return false; }
+        void OnClick() { YieldReturn(true); }
+    }
+}

@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d807d651a63231c89eed6de9fb740deeae9141407db9e141e8cdb03595c39d80
-size 695
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    public class NormalizeVector : ActionTask
+    {
+
+        public BBParameter<Vector3> targetVector;
+        public BBParameter<float> multiply = 1;
+
+        protected override void OnExecute() {
+            targetVector.value = targetVector.value.normalized * multiply.value;
+            EndAction(true);
+        }
+    }
+}

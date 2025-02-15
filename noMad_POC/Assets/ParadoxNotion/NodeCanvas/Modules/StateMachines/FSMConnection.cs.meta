@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ba527e61bde8538d1ed8682c2c00e6564f54ca24791a88ed759fd02b9ab00eb1
-size 471
+fileFormatVersion: 2
+guid: 3d69dfa1e1e10d2448da5e61340175dd
+labels:
+- AI
+- visualscripting
+- FSM
+- state
+- flow
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

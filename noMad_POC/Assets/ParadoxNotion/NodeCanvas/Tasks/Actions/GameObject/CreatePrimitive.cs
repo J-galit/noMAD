@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d68e8cc00cc5472cefd8ddae5a289972818ed56525eb081d036b9bcb9b53262b
-size 1028
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    public class CreatePrimitive : ActionTask
+    {
+
+        public BBParameter<string> objectName;
+        public BBParameter<Vector3> position;
+        public BBParameter<Vector3> rotation;
+        public BBParameter<PrimitiveType> type;
+
+        [BlackboardOnly]
+        public BBParameter<GameObject> saveAs;
+
+        protected override void OnExecute() {
+            var newGO = GameObject.CreatePrimitive(type.value);
+            newGO.name = objectName.value;
+            newGO.transform.position = position.value;
+            newGO.transform.eulerAngles = rotation.value;
+            saveAs.value = newGO;
+            EndAction();
+        }
+    }
+}

@@ -1,3 +1,45 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:76d423146ff0def5137ee334eb6b40d98d47812ffb5584132deab6118e585c63
-size 1403
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("System Events")]
+    [Name("Check Mouse Click 2D")]
+    public class CheckMouseClick2D : ConditionTask<Collider2D>
+    {
+
+        public MouseClickEvent checkType = MouseClickEvent.MouseDown;
+
+        protected override string info {
+            get { return checkType.ToString(); }
+        }
+
+        protected override bool OnCheck() { return false; }
+
+        protected override void OnEnable() {
+            router.onMouseDown += OnMouseDown;
+            router.onMouseUp += OnMouseUp;
+        }
+
+        protected override void OnDisable() {
+            router.onMouseDown -= OnMouseDown;
+            router.onMouseUp -= OnMouseUp;
+        }
+
+        void OnMouseDown(ParadoxNotion.EventData msg) {
+            if ( checkType == MouseClickEvent.MouseDown ) {
+                YieldReturn(true);
+            }
+        }
+
+        void OnMouseUp(ParadoxNotion.EventData msg) {
+            if ( checkType == MouseClickEvent.MouseUp ) {
+                YieldReturn(true);
+            }
+        }
+    }
+}

@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:19ebef859c09beb118b3c55d318a497a246087c175bfac9b246d055f4a204556
-size 1055
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Utility")]
+    [Description("Simply use to debug return true or false by inverting the condition if needed")]
+    public class DebugCondition : ConditionTask
+    {
+
+        protected override bool OnCheck() {
+            return false;
+        }
+
+        ///----------------------------------------------------------------------------------------------
+        ///---------------------------------------UNITY EDITOR-------------------------------------------
+#if UNITY_EDITOR
+
+        protected override void OnTaskInspectorGUI() {
+            if ( UnityEngine.Application.isPlaying && UnityEngine.GUILayout.Button("Tick True") ) {
+                YieldReturn(true);
+            }
+        }
+
+#endif
+
+    }
+}

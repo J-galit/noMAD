@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7888a71dc8497ace0a5fc103aa93102ef6291ed53a42175a39f48823ef1f67e0
-size 856
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    public class FindWithName : ActionTask
+    {
+
+        [RequiredField]
+        public BBParameter<string> gameObjectName;
+        [BlackboardOnly]
+        public BBParameter<GameObject> saveAs;
+
+        protected override string info {
+            get { return "Find Object " + gameObjectName + " as " + saveAs; }
+        }
+
+        protected override void OnExecute() {
+
+            saveAs.value = GameObject.Find(gameObjectName.value);
+            EndAction();
+        }
+    }
+}

@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d6ba3fb9881afaf57dee99772a00fdbf303015fd1bd678bca1fe7bec6da7a70e
-size 1685
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("System Events")]
+    public class CheckMouse : ConditionTask<Collider>
+    {
+
+        public MouseInteractionTypes checkType = MouseInteractionTypes.MouseEnter;
+
+        protected override string info {
+            get { return checkType.ToString(); }
+        }
+
+        protected override bool OnCheck() { return false; }
+
+        protected override void OnEnable() {
+            router.onMouseEnter += OnMouseEnter;
+            router.onMouseExit += OnMouseExit;
+            router.onMouseOver += OnMouseOver;
+        }
+
+        protected override void OnDisable() {
+            router.onMouseEnter -= OnMouseEnter;
+            router.onMouseExit -= OnMouseExit;
+            router.onMouseOver -= OnMouseOver;
+        }
+
+        void OnMouseEnter(ParadoxNotion.EventData msg) {
+            if ( checkType == MouseInteractionTypes.MouseEnter ) {
+                YieldReturn(true);
+            }
+        }
+
+        void OnMouseExit(ParadoxNotion.EventData msg) {
+            if ( checkType == MouseInteractionTypes.MouseExit ) {
+                YieldReturn(true);
+            }
+        }
+
+        void OnMouseOver(ParadoxNotion.EventData msg) {
+            if ( checkType == MouseInteractionTypes.MouseOver ) {
+                YieldReturn(true);
+            }
+        }
+    }
+}

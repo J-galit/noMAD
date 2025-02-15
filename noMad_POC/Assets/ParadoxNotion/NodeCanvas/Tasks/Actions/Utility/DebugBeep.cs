@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:96444a249604f7c943003920bf54a90d7e359a86f6a894813adea566b3503fe7
-size 625
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Utility")]
+    [Description("Plays a 'Beep' in editor only")]
+    public class DebugBeep : ActionTask
+    {
+
+        protected override void OnExecute() {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.Beep();
+#endif
+            EndAction();
+        }
+    }
+}

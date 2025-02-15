@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:47580878eb95185a0bec8b204ecabe2de85bc3df61d5081a125060cf92086a94
-size 787
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Check whether or not a variable is null")]
+    public class CheckNull : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<System.Object> variable;
+
+        protected override string info {
+            get { return variable + " == null"; }
+        }
+
+        protected override bool OnCheck() {
+            return ParadoxNotion.ObjectUtils.AnyEquals(variable.value, null);
+        }
+    }
+}

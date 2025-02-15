@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:df6a84b3d915f0882164ac9e03e5e56333bda106b6a39b49844cd3c72d3cdd7a
-size 913
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Check if a boolean variable is true and if so, it is immediately reset to false.")]
+    public class CheckBooleanTrigger : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<bool> trigger;
+
+        protected override string info {
+            get { return string.Format("Trigger {0}", trigger); }
+        }
+
+        protected override bool OnCheck() {
+            if ( trigger.value ) {
+                trigger.value = false;
+                return true;
+            }
+            return false;
+        }
+    }
+}

@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0080564dd665e90de49633524c4e478b3b5aec73457f18262313a69951f68bf8
-size 816
+﻿namespace NodeCanvas.Framework
+{
+    ///<summary>Log tags "collection" to use in logger easier</summary>
+    public static class LogTag
+    {
+        public const string EDITOR = "Editor";
+        public const string EVENT = "Event";
+        public const string EXECUTION = "Execution";
+        public const string VARIABLE = "Variable";
+        public const string BLACKBOARD = "Blackboard";
+        public const string GRAPH = "Graph";
+        public const string INIT = "Initialization";
+        public const string VALIDATION = "Validation";
+        public const string SERIALIZATION = "Serialization";
+    }
+}

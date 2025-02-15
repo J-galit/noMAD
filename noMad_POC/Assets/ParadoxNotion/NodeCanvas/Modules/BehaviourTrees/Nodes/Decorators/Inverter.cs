@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6e1d5f9d728645fec5e932e476868ac0ffc235c8901ff01929ec8a8207f393fe
-size 1054
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.BehaviourTrees
+{
+
+    [Name("Invert")]
+    [Category("Decorators")]
+    [Description("Inverts Success to Failure and Failure to Success.")]
+    [ParadoxNotion.Design.Icon("Remap")]
+    public class Inverter : BTDecorator
+    {
+
+        protected override Status OnExecute(Component agent, IBlackboard blackboard) {
+
+            if ( decoratedConnection == null )
+                return Status.Optional;
+
+            status = decoratedConnection.Execute(agent, blackboard);
+
+            switch ( status ) {
+                case Status.Success:
+                    return Status.Failure;
+                case Status.Failure:
+                    return Status.Success;
+            }
+
+            return status;
+        }
+    }
+}

@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ada85fbc9a27ad2aa2368d1dc55cf7161d87ea44f4128899fc5bd7861d7a099f
-size 604
+﻿using System;
+
+namespace ParadoxNotion.Serialization.FullSerializer
+{
+
+    ///<summary> The serialization converter allows for customization of the serialization process.</summary>
+    public abstract class fsConverter : fsBaseConverter
+    {
+
+        ///<summary> Can this converter serialize and deserialize the given object type?</summary>
+        public abstract bool CanProcess(Type type);
+    }
+}

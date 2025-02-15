@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:777f88d25da0460c17cf60c59b688c7f431588b0c2e816c0e024b70e2e1a7b7f
-size 497
+﻿using System.Reflection;
+
+namespace ParadoxNotion.Serialization
+{
+
+    ///<summary>Interface between Serialized_X_Info</summary>
+    public interface ISerializedReflectedInfo : UnityEngine.ISerializationCallbackReceiver
+    {
+        MemberInfo AsMemberInfo();
+        string AsString();
+    }
+}

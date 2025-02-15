@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:31ddb847192433f42d43f84f121cb9a759a3b9552d621311f878e3c4911ba842
-size 1602
+﻿using UnityEngine;
+
+namespace ParadoxNotion
+{
+
+    ///<summary>to create styles easier like 'new GUIStyle().Padding(2,2,2,2).Margin(1,1,1,1)...' etc</summary>
+    public static class GUIStyleUtils
+    {
+
+        public static GUIStyle Margin(this GUIStyle style, int left, int right, int top, int bottom) {
+            style.margin = new RectOffset(left, right, top, bottom);
+            return style;
+        }
+
+        public static GUIStyle Padding(this GUIStyle style, int left, int right, int top, int bottom) {
+            style.padding = new RectOffset(left, right, top, bottom);
+            return style;
+        }
+
+        public static GUIStyle Border(this GUIStyle style, int left, int right, int top, int bottom) {
+            style.border = new RectOffset(left, right, top, bottom);
+            return style;
+        }
+
+        public static GUIStyle Overflow(this GUIStyle style, int left, int right, int top, int bottom) {
+            style.overflow = new RectOffset(left, right, top, bottom);
+            return style;
+        }
+
+        public static GUIStyle TextAlignment(this GUIStyle style, TextAnchor anchor) {
+            style.alignment = anchor;
+            return style;
+        }
+
+        public static GUIStyle RichText(this GUIStyle style, bool rich) {
+            style.richText = rich;
+            return style;
+        }
+    }
+}

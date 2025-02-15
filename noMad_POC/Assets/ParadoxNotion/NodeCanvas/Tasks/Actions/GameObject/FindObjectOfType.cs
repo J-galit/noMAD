@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9c6a9dcae248177607375d7f42bb17090df3f81e4d0d9e2d5e6ddf6a44c4024b
-size 1001
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("GameObject")]
+    [Description("Note that this is very slow")]
+    public class FindObjectOfType<T> : ActionTask where T : Component
+    {
+
+        [BlackboardOnly]
+        public BBParameter<T> saveComponentAs;
+        [BlackboardOnly]
+        public BBParameter<GameObject> saveGameObjectAs;
+
+        protected override void OnExecute() {
+            var o = Object.FindAnyObjectByType<T>();
+            if ( o != null ) {
+                saveComponentAs.value = o;
+                saveGameObjectAs.value = o.gameObject;
+                EndAction(true);
+                return;
+            }
+
+            EndAction(false);
+        }
+    }
+}

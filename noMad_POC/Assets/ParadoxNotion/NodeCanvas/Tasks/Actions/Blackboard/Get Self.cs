@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cfbd9d6aafca6742584010662faf43d99897bae54f83434175401ec219402ca3
-size 664
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("Stores the agent gameobject on the blackboard.")]
+    public class GetSelf : ActionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<UnityEngine.GameObject> saveAs;
+
+        protected override void OnExecute() {
+            saveAs.value = agent?.gameObject;
+            EndAction(true);
+        }
+    }
+}

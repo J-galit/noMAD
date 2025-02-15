@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:351c98208632dc49a2e7439955b962ecf1286c1520e7538ed285cf3786cb0334
-size 895
+﻿using System.Collections.Generic;
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard/Lists")]
+    public class AddElementToList<T> : ActionTask
+    {
+        [RequiredField]
+        [BlackboardOnly]
+        public BBParameter<List<T>> targetList;
+        public BBParameter<T> targetElement;
+
+        protected override string info {
+            get { return string.Format("Add {0} In {1}", targetElement, targetList); }
+        }
+
+        protected override void OnExecute() {
+            targetList.value.Add(targetElement.value);
+            EndAction();
+        }
+    }
+}

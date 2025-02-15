@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:920e13d617de4c2a40c3f5632d8bf4878a77bc9731cb4c336dec6777c5a4f8de
-size 894
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Name("Get Variable To String")]
+    [Category("✫ Blackboard")]
+    public class GetToString : ActionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<object> variable;
+        [BlackboardOnly]
+        public BBParameter<string> toString;
+
+        protected override string info {
+            get { return string.Format("{0} = {1}.ToString()", toString, variable); }
+        }
+
+        protected override void OnExecute() {
+            toString.value = !variable.isNull ? variable.value.ToString() : "NULL";
+            EndAction();
+        }
+    }
+}

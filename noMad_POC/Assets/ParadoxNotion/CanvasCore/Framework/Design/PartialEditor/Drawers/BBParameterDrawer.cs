@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6fe9f81f1141ad439036b49d841e180920a54d6f7baf4537e75ea48dbb711f46
-size 837
+﻿#if UNITY_EDITOR
+
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+using ParadoxNotion;
+
+namespace NodeCanvas.Editor
+{
+
+    public class BBParameterDrawer : ObjectDrawer<BBParameter>
+    {
+        public override BBParameter OnGUI(GUIContent content, BBParameter instance) {
+            var required = fieldInfo.RTIsDefined<RequiredFieldAttribute>(true);
+            var bbOnly = fieldInfo.RTIsDefined<BlackboardOnlyAttribute>(true);
+            instance = BBParameterEditor.ParameterField(content, instance, bbOnly, required, info);
+            return instance;
+        }
+    }
+}
+
+#endif

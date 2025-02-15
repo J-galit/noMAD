@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7f3079f0ac65a186d2c90b85cdd4957bd65ee33dfdc10adcde64ca1a3e5bdf9b
-size 1392
+#if UNITY_EDITOR
+
+using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+using UnityEditor;
+using UnityEngine;
+
+
+namespace NodeCanvas.Editor
+{
+
+    [CustomEditor(typeof(Blackboard))]
+    public class BlackboardInspector : UnityEditor.Editor
+    {
+
+        private Blackboard bb { get { return (Blackboard)target; } }
+
+        private SerializedProperty parentBlackboardProp;
+
+        void OnEnable() {
+            parentBlackboardProp = serializedObject.FindProperty("_parentBlackboard");
+        }
+
+        public override void OnInspectorGUI() {
+            GUI.color = GUI.color.WithAlpha(parentBlackboardProp.objectReferenceValue ? 1 : 0.6f);
+            EditorGUILayout.PropertyField(parentBlackboardProp, EditorUtils.GetTempContent("Parent Asset Blackboard", null, "Optional Parent Asset Blackboard to 'inherit' variables from."));
+            serializedObject.ApplyModifiedProperties();
+            GUI.color = Color.white;
+
+            BlackboardEditor.ShowVariables(bb);
+            EditorUtils.EndOfInspector();
+            if ( Event.current.isMouse ) {
+                Repaint();
+            }
+        }
+    }
+}
+
+#endif

@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3fd44acf9f7b88a88a9ac1e7a6caf17326b19e7852bd600cc8746e20c19470e6
-size 812
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    [System.Obsolete("Use CheckVariable(T)")]
+    public class CheckUnityObject : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<UnityEngine.Object> valueA;
+        public BBParameter<UnityEngine.Object> valueB;
+
+        protected override string info {
+            get { return valueA + " == " + valueB; }
+        }
+
+        protected override bool OnCheck() {
+            return valueA.value == valueB.value;
+        }
+    }
+}

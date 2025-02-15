@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f463aa1f1383b893d97dcb0038f48d1e80839b4cc75ff48f993788f6b91826c4
-size 1297
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Name("Set Parameter Integer")]
+    [Category("Animator")]
+    [Description("You can either use a parameter name OR hashID. Leave the parameter name empty or none to use hashID instead.")]
+    public class MecanimSetInt : ActionTask<Animator>
+    {
+
+        public BBParameter<string> parameter;
+        public BBParameter<int> parameterHashID;
+        public BBParameter<int> setTo;
+
+        protected override string info {
+            get { return string.Format("Mec.SetInt {0} to {1}", string.IsNullOrEmpty(parameter.value) && !parameter.useBlackboard ? parameterHashID.ToString() : parameter.ToString(), setTo); }
+        }
+
+        protected override void OnExecute() {
+            if ( !string.IsNullOrEmpty(parameter.value) ) {
+                agent.SetInteger(parameter.value, setTo.value);
+            } else {
+                agent.SetInteger(parameterHashID.value, setTo.value);
+            }
+            EndAction();
+        }
+    }
+}

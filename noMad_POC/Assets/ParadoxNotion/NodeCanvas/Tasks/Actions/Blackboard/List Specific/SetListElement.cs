@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:92acc609bf32475d87d27ee8d59e2a0029ef72aee073ca3d6ef2b1a40021d9e8
-size 934
+﻿using System.Collections.Generic;
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard/Lists")]
+    public class SetListElement<T> : ActionTask
+    {
+
+        [RequiredField]
+        [BlackboardOnly]
+        public BBParameter<List<T>> targetList;
+        public BBParameter<int> index;
+        public BBParameter<T> newValue;
+
+        protected override void OnExecute() {
+
+            if ( index.value < 0 || index.value >= targetList.value.Count ) {
+                EndAction(false);
+                return;
+            }
+
+            targetList.value[index.value] = newValue.value;
+            EndAction(true);
+        }
+    }
+}

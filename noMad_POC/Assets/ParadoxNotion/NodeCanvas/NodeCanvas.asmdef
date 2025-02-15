@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cd37ac12f614ca83297a00be214688e706149ab8f5bea8488e408d0ba6366602
-size 570
+{
+    "name": "NodeCanvas",
+    "references": [
+        "GUID:66c2eb417c67ad849907d0769db96dbf"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

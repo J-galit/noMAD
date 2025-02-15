@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3668f120be527ecdacef477a0976bed26f8d39e2f1091ae63d410d28ad03b225
-size 736
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    public class CheckString : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<string> valueA;
+        public BBParameter<string> valueB;
+
+        protected override string info {
+            get { return valueA + " == " + valueB; }
+        }
+
+        protected override bool OnCheck() {
+            return valueA.value == valueB.value;
+        }
+    }
+}

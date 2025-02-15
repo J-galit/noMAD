@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:47310d2da760475231bff0a3e632399d031cd6e6178e0fbed0cab3d0a8bb4c1b
-size 1343
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Reflected")]
+    [Description("Send a Unity message to all game objects with a component of the specified type.\nNotice: This is slow and should not be called per-fame.")]
+    public class SendMessageToType<T> : ActionTask where T : Component
+    {
+
+        [RequiredField]
+        public BBParameter<string> message;
+        [BlackboardOnly]
+        public BBParameter<object> argument;
+
+        protected override string info {
+            get { return string.Format("Message {0}({1}) to all {2}s", message, argument, typeof(T).Name); }
+        }
+
+        protected override void OnExecute() {
+
+            var objects = Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+            if ( objects.Length == 0 ) {
+                EndAction(false);
+                return;
+            }
+
+            foreach ( var o in objects ) {
+                o.gameObject.SendMessage(message.value, argument.value);
+            }
+
+            EndAction(true);
+        }
+    }
+}

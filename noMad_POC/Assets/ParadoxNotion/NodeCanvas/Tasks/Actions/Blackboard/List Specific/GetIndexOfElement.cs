@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:914ec95320edf8e43a607bc85574441ea67aabb838f3f60f763c3c60f8842997
-size 835
+﻿using System.Collections.Generic;
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Category("✫ Blackboard/Lists")]
+    public class GetIndexOfElement<T> : ActionTask
+    {
+        [RequiredField]
+        [BlackboardOnly]
+        public BBParameter<List<T>> targetList;
+        public BBParameter<T> targetElement;
+        [BlackboardOnly]
+        public BBParameter<int> saveIndexAs;
+
+        protected override void OnExecute() {
+
+            saveIndexAs.value = targetList.value.IndexOf(targetElement.value);
+            EndAction(true);
+        }
+    }
+}

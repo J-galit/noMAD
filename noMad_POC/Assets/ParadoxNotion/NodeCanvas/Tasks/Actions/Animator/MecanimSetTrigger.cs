@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9377ab82ffd86e9ac60ff15b4432e5ef4ebc61faf6bb555801462e1ebd2f68f6
-size 1225
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Actions
+{
+
+    [Name("Set Parameter Trigger")]
+    [Category("Animator")]
+    [Description("You can either use a parameter name OR hashID. Leave the parameter name empty or none to use hashID instead.")]
+    public class MecanimSetTrigger : ActionTask<Animator>
+    {
+
+        public BBParameter<string> parameter;
+        public BBParameter<int> parameterHashID;
+
+        protected override string info {
+            get { return string.Format("Mec.SetTrigger {0}", string.IsNullOrEmpty(parameter.value) && !parameter.useBlackboard ? parameterHashID.ToString() : parameter.ToString()); }
+        }
+
+        protected override void OnExecute() {
+            if ( !string.IsNullOrEmpty(parameter.value) ) {
+                agent.SetTrigger(parameter.value);
+            } else {
+                agent.SetTrigger(parameterHashID.value);
+            }
+            EndAction();
+        }
+    }
+}

@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8f6f24729a635edecdd336ecc19d663ee06ce336b66079ee7ce91a6265cb44f4
-size 569
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class UICurrency : MonoBehaviour
+{
+    [SerializeField]
+    private TextMeshProUGUI currencyText;
+
+    public void UpdateCurrency(int currency)
+    {
+        //displays the currency variable
+        currencyText.text = currency.ToString() + " $";
+    }
+}

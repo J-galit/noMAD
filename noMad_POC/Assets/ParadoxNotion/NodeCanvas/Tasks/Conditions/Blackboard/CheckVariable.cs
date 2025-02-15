@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dc10f4ad5620feb74f49ec97347aba64dc0c657d60bfc9c5ff6ff7a6fb2ce07f
-size 897
+﻿using NodeCanvas.Framework;
+using ParadoxNotion;
+using ParadoxNotion.Design;
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Category("✫ Blackboard")]
+    [Description("It's best to use the respective Condition for a type if existant since they support operations as well")]
+    public class CheckVariable<T> : ConditionTask
+    {
+
+        [BlackboardOnly]
+        public BBParameter<T> valueA;
+        public BBParameter<T> valueB;
+
+        protected override string info {
+            get { return valueA + " == " + valueB; }
+        }
+
+        protected override bool OnCheck() {
+            return ObjectUtils.AnyEquals(valueA.value, valueB.value);
+        }
+    }
+}

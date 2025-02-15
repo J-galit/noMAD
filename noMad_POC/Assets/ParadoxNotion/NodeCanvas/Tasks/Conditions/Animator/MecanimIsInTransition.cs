@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:823b1373bfac302110c0ee2d2dab84002551127b4007aac988c177a1dc08cac0
-size 743
+﻿using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using UnityEngine;
+
+
+namespace NodeCanvas.Tasks.Conditions
+{
+
+    [Name("Is In Transition")]
+    [Category("Animator")]
+    public class MecanimIsInTransition : ConditionTask<Animator>
+    {
+
+        public BBParameter<int> layerIndex;
+
+        protected override string info {
+            get { return "Mec.Is In Transition"; }
+        }
+
+        protected override bool OnCheck() {
+
+            return agent.IsInTransition(layerIndex.value);
+        }
+    }
+}
