@@ -32,19 +32,27 @@ public class PlayerHealth : MonoBehaviour
             {
                 isInCombat = true;
                 //remove heart UI
-                healthDisplayArray[health].gameObject.SetActive(false);
-                //lose health
-                health--;
+                healthDisplayArray[health].SetActive(false);
+                if(thirdPersonCharacterController.isResistAttackActive == false) //if they don't have resist attack
+                {
+                    healthDisplayArray[health - 1].SetActive(false); //take extra damage
+                    health-= 2;
+                }
+                else
+                {
+                    health--;
+                }
+
+                if(health<=0) //if player runs out of health
+                {
+                    Destroy(gameObject); //dies
+                }
+
                 if (isCoroutineActive == false)
                 {
                     //start coroutine that will slowly heal the player
                     StartCoroutine(OutOfCombatCoroutine());
                 }
-            }
-            else if (health <= 0) //if player dies
-            {
-                //restart scene 
-                Destroy(gameObject);
             }
         }
     }
@@ -64,7 +72,7 @@ public class PlayerHealth : MonoBehaviour
                 //health increase
                 health++;
                 //heart displayed in UI
-                healthDisplayArray[health].gameObject.SetActive(true);
+                healthDisplayArray[health].SetActive(true);
             }
             if (health == healthDisplayArray.Length - 1) //if health equals the array length
             {

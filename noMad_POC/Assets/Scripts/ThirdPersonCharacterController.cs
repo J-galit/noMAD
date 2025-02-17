@@ -18,6 +18,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
     [SerializeField] private GameObject moreHealthButton;
+    [SerializeField] private GameObject resistAttackButton;
     [SerializeField] private GameObject fasterHealingButton;
     [SerializeField] private GameObject largeAttackButton;
     [SerializeField] private GameObject fasterAttackButton;
@@ -40,6 +41,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isLargerSizeOwned;
     private int moreHealthCost = 100;
     private bool isMoreHealthOwned;
+    private int resistAttackCost = 100;
+    private bool isResistAttackOwned;
     private int fasterHealingCost = 100;
     private bool isFasterHealingOwned;
     private int largerAttackCost = 100;
@@ -72,6 +75,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private bool isMoreHealthActive;
     [SerializeField] public float healingSpeedMultiplier;
     [SerializeField] private bool isFasterHealingActive;
+    [SerializeField] public bool isResistAttackActive;
 
     [Header("Attack Parameters")]
     [SerializeField] private GameObject attackPrefab;
@@ -526,6 +530,42 @@ public class ThirdPersonCharacterController : MonoBehaviour
         _UICurrency.UpdateCurrency(totalCurrency);
 
     }
+
+    public void ResistAttackButtonHandler()
+    {
+        if (resistAttackCost <= totalCurrency && isResistAttackOwned== false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= resistAttackCost;
+            isResistAttackOwned = true;
+        }
+
+        if (isResistAttackOwned == true)
+        {
+
+            if (isResistAttackActive == false)
+            {
+                isResistAttackActive = true;
+                resistAttackButton.SetActive(true);
+                currentAdaptations++;
+            }
+            else if (isResistAttackOwned == true)
+            {
+                isResistAttackActive = false;
+                resistAttackButton.SetActive(false);
+                totalCurrency += resistAttackCost/ 2;
+                isResistAttackOwned = false;
+                currentAdaptations--;
+            }
+
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+    }
+
 
     public void FasterHealingButtonHandler()
     {
