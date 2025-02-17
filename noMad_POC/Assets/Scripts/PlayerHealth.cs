@@ -9,10 +9,11 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth;
     private bool isInCombat, isCoroutineActive;
     [SerializeField] GameObject[] healthDisplayArray;
+
     private ThirdPersonCharacterController thirdPersonCharacterController;
     private void Awake()
     {
-        //need this script to access newMaxHealth variable
+        //need this script to access newMaxHealth variable and isResistAttack bool
         thirdPersonCharacterController = GetComponent<ThirdPersonCharacterController>();
         isCoroutineActive = false;
     }

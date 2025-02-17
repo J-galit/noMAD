@@ -20,6 +20,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private GameObject moreHealthButton;
     [SerializeField] private GameObject resistAttackButton;
     [SerializeField] private GameObject fasterHealingButton;
+    [SerializeField] private GameObject moreDamageButton;
     [SerializeField] private GameObject largeAttackButton;
     [SerializeField] private GameObject fasterAttackButton;
 
@@ -45,6 +46,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isResistAttackOwned;
     private int fasterHealingCost = 100;
     private bool isFasterHealingOwned;
+    private int moreDamageCost = 100;
+    private bool isMoreDamageOwned;
     private int largerAttackCost = 100;
     private bool isLargerAttackOwned;
     private int fasterAttackCost = 100;
@@ -75,6 +78,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private bool isMoreHealthActive;
     [SerializeField] public float healingSpeedMultiplier;
     [SerializeField] private bool isFasterHealingActive;
+
     [SerializeField] public bool isResistAttackActive;
 
     [Header("Attack Parameters")]
@@ -82,6 +86,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [SerializeField] private bool isAttacking;
 
     [Header("Attack Adaptation Parameters")]
+    [SerializeField] public bool isMoreDamageActive;
     [SerializeField] private float attackSizeMultiplier;
     [SerializeField] private bool isLargerAttackActive;
     [SerializeField] private float attackSpeedMultiplier;
@@ -592,6 +597,41 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 healingSpeedMultiplier = healingSpeedMultiplier / 1.5f; //returns health regen to normal
                 totalCurrency += fasterHealingCost / 2;
                 isFasterHealingOwned = false;
+                currentAdaptations--;
+            }
+
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+    }
+
+    public void MoreDamageButtonHandler()
+    {
+        if (moreDamageCost <= totalCurrency && isMoreDamageOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= moreDamageCost;
+            isMoreDamageOwned = true;
+        }
+
+        if (isMoreDamageOwned == true)
+        {
+
+            if (isMoreDamageActive == false)
+            {
+                isMoreDamageActive = true;
+                moreDamageButton.SetActive(true);
+                currentAdaptations++;
+            }
+            else if (isMoreDamageActive == true)
+            {
+                isMoreDamageActive = false;
+                moreDamageButton.SetActive(false);
+                totalCurrency += moreDamageCost / 2;
+                isMoreDamageActive = false;
                 currentAdaptations--;
             }
 
