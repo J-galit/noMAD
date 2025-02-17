@@ -14,6 +14,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [SerializeField] private GameObject adaptationsShop;
     [SerializeField] private GameObject jumpBoostButton;
+    [SerializeField] private GameObject slowFallButton;
     [SerializeField] private GameObject speedBoostButton;
     [SerializeField] private GameObject smallSizeButton;
     [SerializeField] private GameObject largeSizeButton;
@@ -36,6 +37,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isJumpBoostOwned;
     private int speedBoostCost = 100;
     private bool isSpeedBoostOwned;
+    private int slowFallCost = 100;
+    private bool isSlowFallOwned;
     private int smallerSizeCost = 100;
     private bool isSmallerSizeOwned;
     private int largerSizeCost = 100;
@@ -72,6 +75,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Jump Adaptation Parameters")]
     [SerializeField] private float jumpBoostMultiplier;
     [SerializeField] private bool isJumpBoostActive;
+    [SerializeField] private bool isSlowFallActive;
+    [SerializeField] private float gravityReducer;
 
     [Header("Health Adaptation Parameters")]
     [SerializeField] public int newMaxHealth;
@@ -125,6 +130,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         attackSpeedMultiplier = 1;
         healingSpeedMultiplier = 1;
+        gravityReducer = 1;
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         
@@ -246,6 +252,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             //gravity 
             currentVelocity.y -= gravity * Time.deltaTime;
+            if(characterController.isGrounded == false && isSlowFallActive)
+            {
+                currentVelocity.y += gravity/gravityReducer * Time.deltaTime; //upwards force that is less than gravity to simulate flower fall
+            }
         }
 
         characterController.Move(currentVelocity * Time.deltaTime);
@@ -414,6 +424,42 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 isSpeedBoostOwned = false;
                 currentAdaptations--;
             }
+        }
+        else if (currentAdaptations >= maxAdaptations)
+        {
+            StartCoroutine(MaxAdaptationCoroutine());
+        }
+        _UICurrency.UpdateCurrency(totalCurrency);
+
+    }
+
+    public void SlowFallButtonHandler()
+    {
+        if (slowFallCost <= totalCurrency && isSlowFallOwned == false && currentAdaptations < maxAdaptations)
+        {
+            totalCurrency -= slowFallCost;
+            isSlowFallOwned = true;
+        }
+
+        if (isSlowFallOwned == true)
+        {
+
+            if (isSlowFallActive == false)
+            {
+                isSlowFallActive = true;
+                slowFallButton.SetActive(true);
+                gravityReducer = 6;
+                currentAdaptations++;
+            }
+            else if (isSlowFallOwned == true)
+            {
+                isSlowFallActive = false;
+                slowFallButton.SetActive(false);
+                totalCurrency += slowFallCost / 2;
+                isSlowFallOwned = false;
+                currentAdaptations--;
+            }
+
         }
         else if (currentAdaptations >= maxAdaptations)
         {
